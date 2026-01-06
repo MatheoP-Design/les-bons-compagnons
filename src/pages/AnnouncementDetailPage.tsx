@@ -33,23 +33,23 @@ export function AnnouncementDetailPage() {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   const { announcements, quotes, messages, addQuote, addMessage, acceptQuote, refuseQuote } = useData();
-  
+
   const [quoteForm, setQuoteForm] = useState({
     amount: '',
     description: '',
     estimatedDuration: '',
   });
-  
+
   const [messageContent, setMessageContent] = useState('');
   const [refusalMessage, setRefusalMessage] = useState('');
 
   const announcement = announcements.find(a => a.id === id);
   const announcementQuotes = quotes.filter(q => q.announcementId === id);
   const announcementMessages = messages.filter(m => m.announcementId === id);
-  
+
   // Trouver le devis accepté
   const acceptedQuote = announcementQuotes.find(q => q.accepted === true);
-  
+
   // Vérifier si l'utilisateur peut accéder à la messagerie
   const canAccessMessaging = isAuthenticated && acceptedQuote && (
     // Le particulier qui a créé l'annonce
@@ -60,7 +60,7 @@ export function AnnouncementDetailPage() {
 
   if (!announcement) {
     return (
-      <div className="container px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
         <Card>
           <CardContent className="p-12 text-center">
             <p className="text-muted-foreground">Annonce introuvable</p>
@@ -72,7 +72,7 @@ export function AnnouncementDetailPage() {
 
   const handleSendQuote = () => {
     if (!user || user.role !== 'cadre') return;
-    
+
     addQuote({
       announcementId: announcement.id,
       cadreId: user.id,
@@ -81,35 +81,35 @@ export function AnnouncementDetailPage() {
       description: quoteForm.description,
       estimatedDuration: quoteForm.estimatedDuration,
     });
-    
+
     toast.success('Devis envoyé avec succès');
     setQuoteForm({ amount: '', description: '', estimatedDuration: '' });
   };
 
   const handleSendMessage = () => {
     if (!user || !messageContent.trim()) return;
-    
+
     addMessage({
       announcementId: announcement.id,
       senderId: user.id,
       senderName: `${user.firstName} ${user.lastName}`,
       content: messageContent,
     });
-    
+
     toast.success('Message envoyé');
     setMessageContent('');
   };
 
   const handleRefuseRequest = () => {
     if (!user || user.role !== 'cadre' || !refusalMessage.trim()) return;
-    
+
     addMessage({
       announcementId: announcement.id,
       senderId: user.id,
       senderName: `${user.firstName} ${user.lastName}`,
       content: `Demande refusée : ${refusalMessage}`,
     });
-    
+
     toast.success('Message de refus envoyé');
     setRefusalMessage('');
   };
@@ -129,7 +129,7 @@ export function AnnouncementDetailPage() {
   const isCadre = user?.role === 'cadre';
 
   return (
-    <div className="container px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Announcement Details */}
         <Card>
@@ -137,7 +137,7 @@ export function AnnouncementDetailPage() {
             <img
               src={announcement.imageUrl}
               alt={announcement.title}
-              className="w-full h-64 object-cover rounded-t-lg"
+              className="w-full h-32 md:h-40 object-cover rounded-t-lg"
             />
             <div className="p-6">
               <div className="flex items-start justify-between mb-4">
@@ -146,7 +146,7 @@ export function AnnouncementDetailPage() {
                   {statusLabels[announcement.status].label}
                 </Badge>
               </div>
-              
+
               <div className="flex flex-wrap items-center gap-4 mb-6 text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <MapPin className="h-4 w-4" />
@@ -158,7 +158,7 @@ export function AnnouncementDetailPage() {
                 </div>
                 <Badge variant="outline">{announcement.renovationType}</Badge>
               </div>
-              
+
               <div className="prose max-w-none">
                 <p className="text-foreground">{announcement.description}</p>
               </div>
@@ -246,7 +246,7 @@ export function AnnouncementDetailPage() {
                         onChange={(e) => setQuoteForm({ ...quoteForm, amount: e.target.value })}
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="duration">Durée estimée</Label>
                       <Input
@@ -256,7 +256,7 @@ export function AnnouncementDetailPage() {
                         onChange={(e) => setQuoteForm({ ...quoteForm, estimatedDuration: e.target.value })}
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="description">Description</Label>
                       <Textarea
@@ -266,7 +266,7 @@ export function AnnouncementDetailPage() {
                         rows={4}
                       />
                     </div>
-                    
+
                     <Button onClick={handleSendQuote} className="w-full bg-[#FF8C42] hover:bg-[#FF8C42]/90">
                       Envoyer le devis
                     </Button>
@@ -323,9 +323,8 @@ export function AnnouncementDetailPage() {
                   announcementMessages.map((message) => (
                     <div
                       key={message.id}
-                      className={`p-3 rounded-lg ${
-                        message.senderId === user?.id ? 'bg-[#FF8C42]/10 ml-auto max-w-[80%]' : 'bg-gray-100 mr-auto max-w-[80%]'
-                      }`}
+                      className={`p-3 rounded-lg ${message.senderId === user?.id ? 'bg-[#FF8C42]/10 ml-auto max-w-[80%]' : 'bg-gray-100 mr-auto max-w-[80%]'
+                        }`}
                     >
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-sm">{message.senderName}</span>
@@ -338,7 +337,7 @@ export function AnnouncementDetailPage() {
                   ))
                 )}
               </div>
-              
+
               <div className="flex gap-2">
                 <Textarea
                   value={messageContent}

@@ -26,6 +26,7 @@ interface DataContextType {
   addReview: (review: Omit<Review, 'id' | 'createdAt'>) => void;
   markNotificationAsRead: (notificationId: string) => void;
   addNotification: (notification: Omit<Notification, 'id' | 'createdAt'>) => void;
+  updateProject: (projectId: string, updates: Partial<Project>) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -76,6 +77,28 @@ const mockAnnouncements: Announcement[] = [
     imageUrl: 'https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080',
     createdAt: new Date('2025-12-15'),
   },
+  {
+    id: '5',
+    userId: 'user1',
+    title: 'Restauration charpente en bois',
+    description: 'Charpente d\'une grange ancienne nécessitant une restauration complète. Travail de charpenterie traditionnelle requis.',
+    city: 'Lyon',
+    renovationType: 'Charpente',
+    status: 'en_attente',
+    imageUrl: 'https://images.unsplash.com/photo-1590725140246-20acdee442be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    createdAt: new Date('2026-01-10'),
+  },
+  {
+    id: '6',
+    userId: 'user2',
+    title: 'Rénovation cheminée ancienne',
+    description: 'Cheminée en pierre à restaurer avec reconstruction du manteau et rénovation des conduits.',
+    city: 'Paris',
+    renovationType: 'Monument',
+    status: 'devis_envoye',
+    imageUrl: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    createdAt: new Date('2026-01-08'),
+  },
 ];
 
 const mockQuotes: Quote[] = [
@@ -89,6 +112,38 @@ const mockQuotes: Quote[] = [
     estimatedDuration: '3-4 jours',
     createdAt: new Date('2026-01-03'),
   },
+  {
+    id: 'q2',
+    announcementId: '3',
+    cadreId: 'cadre3',
+    cadreName: 'Michel Garnier',
+    amount: 8500,
+    description: 'Devis pour rénovation complète de la toiture : remplacement des tuiles endommagées, traitement de la charpente, réfection des solins et joints.',
+    estimatedDuration: '2-3 semaines',
+    createdAt: new Date('2025-12-29'),
+    accepted: true,
+  },
+  {
+    id: 'q3',
+    announcementId: '4',
+    cadreId: 'cadre1',
+    cadreName: 'Jean Dupont',
+    amount: 3200,
+    description: 'Restauration du parquet en chêne : ponçage complet, traitement anti-parasites, application de finition huilée naturelle.',
+    estimatedDuration: '1 semaine',
+    createdAt: new Date('2025-12-16'),
+    accepted: true,
+  },
+  {
+    id: 'q4',
+    announcementId: '6',
+    cadreId: 'cadre2',
+    cadreName: 'Paul Lefebvre',
+    amount: 4200,
+    description: 'Restauration complète de la cheminée : démontage et remontage du manteau, réfection des conduits, enduit traditionnel.',
+    estimatedDuration: '2 semaines',
+    createdAt: new Date('2026-01-09'),
+  },
 ];
 
 const mockMessages: Message[] = [
@@ -99,6 +154,30 @@ const mockMessages: Message[] = [
     senderName: 'Jean Dupont',
     content: 'Bonjour, j\'ai bien reçu votre demande. Je peux me déplacer pour évaluer les travaux cette semaine.',
     createdAt: new Date('2026-01-03T10:30:00'),
+  },
+  {
+    id: 'm2',
+    announcementId: '1',
+    senderId: 'user1',
+    senderName: 'Sophie Bernard',
+    content: 'Parfait, pouvez-vous venir mercredi après-midi ?',
+    createdAt: new Date('2026-01-03T14:20:00'),
+  },
+  {
+    id: 'm3',
+    announcementId: '3',
+    senderId: 'cadre3',
+    senderName: 'Michel Garnier',
+    content: 'Les travaux de toiture sont en cours. La charpente est en bon état, nous commençons le remplacement des tuiles.',
+    createdAt: new Date('2026-01-05T09:15:00'),
+  },
+  {
+    id: 'm4',
+    announcementId: '4',
+    senderId: 'cadre1',
+    senderName: 'Jean Dupont',
+    content: 'Le parquet est maintenant terminé ! Il est prêt pour la visite.',
+    createdAt: new Date('2025-12-27T16:45:00'),
   },
 ];
 
@@ -111,8 +190,14 @@ const mockProjects: Project[] = [
     city: 'Bordeaux',
     renovationType: 'Toiture',
     images: {
-      before: ['https://images.unsplash.com/photo-1763665814485-a0a1b6f51ed7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb29mJTIwcmVub3ZhdGlvbiUyMGNvbnN0cnVjdGlvbnxlbnwxfHx8fDE3Njc2MTI0MjB8MA&ixlib=rb-4.1.0&q=80&w=1080'],
-      during: ['https://images.unsplash.com/photo-1687818800037-325ba3b2752a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMGNhcnBlbnRyeSUyMHRvb2xzfGVufDF8fHx8MTc2NzY4ODYwOHww&ixlib=rb-4.1.0&q=80&w=1080'],
+      before: [
+        'https://images.unsplash.com/photo-1763665814485-a0a1b6f51ed7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb29mJTIwcmVub3ZhdGlvbiUyMGNvbnN0cnVjdGlvbnxlbnwxfHx8fDE3Njc2MTI0MjB8MA&ixlib=rb-4.1.0&q=80&w=1080',
+        'https://images.unsplash.com/photo-1590725140246-20acdee442be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080'
+      ],
+      during: [
+        'https://images.unsplash.com/photo-1687818800037-325ba3b2752a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMGNhcnBlbnRyeSUyMHRvb2xzfGVufDF8fHx8MTc2NzY4ODYwOHww&ixlib=rb-4.1.0&q=80&w=1080',
+        'https://images.unsplash.com/photo-1581578731548-c64695cc6952?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080'
+      ],
       after: [],
     },
     startDate: new Date('2026-01-02'),
@@ -126,9 +211,17 @@ const mockProjects: Project[] = [
     city: 'Toulouse',
     renovationType: 'Parquet',
     images: {
-      before: ['https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080'],
-      during: ['https://images.unsplash.com/photo-1661446520690-b92b30acf318?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcmFmdHNtYW4lMjB3b29kd29yayUyMHJlbm92YXRpb258ZW58MXx8fHwxNzY3Njg4NjA4fDA&ixlib=rb-4.1.0&q=80&w=1080'],
-      after: ['https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080'],
+      before: [
+        'https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080'
+      ],
+      during: [
+        'https://images.unsplash.com/photo-1661446520690-b92b30acf318?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcmFmdHNtYW4lMjB3b29kd29yayUyMHJlbm92YXRpb258ZW58MXx8fHwxNzY3Njg4NjA4fDA&ixlib=rb-4.1.0&q=80&w=1080',
+        'https://images.unsplash.com/photo-1600607687644-c7171b42498b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080'
+      ],
+      after: [
+        'https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080',
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080'
+      ],
     },
     startDate: new Date('2025-12-18'),
     endDate: new Date('2025-12-28'),
@@ -141,10 +234,19 @@ const mockReviews: Review[] = [
     id: 'r1',
     projectId: 'p2',
     userId: 'user4',
-    userName: 'Marie Martin',
+    userName: 'Lucas Moreau',
     rating: 5,
     comment: 'Travail exceptionnel ! Le parquet est magnifique, on dirait qu\'il est neuf. L\'artisan a fait preuve d\'un grand professionnalisme.',
     createdAt: new Date('2025-12-30'),
+  },
+  {
+    id: 'r2',
+    projectId: 'p2',
+    userId: 'user4',
+    userName: 'Lucas Moreau',
+    rating: 5,
+    comment: 'Très satisfait du résultat final. Les finitions sont impeccables.',
+    createdAt: new Date('2025-12-31'),
   },
 ];
 
@@ -232,7 +334,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       q.id === quoteId ? { ...q, accepted: true } : q
     ));
     
-    updateAnnouncementStatus(announcementId, 'accepte');
+    updateAnnouncementStatus(announcementId, 'en_cours');
 
     const quote = quotes.find(q => q.id === quoteId);
     if (quote) {
@@ -300,6 +402,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     setNotifications([newNotification, ...notifications]);
   };
 
+  const updateProject = (projectId: string, updates: Partial<Project>) => {
+    setProjects(projects.map(p => 
+      p.id === projectId ? { ...p, ...updates } : p
+    ));
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -318,6 +426,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         addReview,
         markNotificationAsRead,
         addNotification,
+        updateProject,
       }}
     >
       {children}

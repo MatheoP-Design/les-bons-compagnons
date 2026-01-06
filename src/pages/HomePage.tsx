@@ -32,7 +32,7 @@ export function HomePage() {
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#2C5F8D] to-[#1a3a5c] text-white py-20">
-        <div className="container px-4">
+        <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl mb-6">
               Trouvez les meilleurs compagnons pour vos rénovations
@@ -58,7 +58,7 @@ export function HomePage() {
 
       {/* Values Section */}
       <section className="py-16 bg-white">
-        <div className="container px-4">
+        <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl text-center mb-12 text-[#2C5F8D]">
             Nos valeurs
           </h2>
@@ -82,7 +82,7 @@ export function HomePage() {
 
       {/* How it works */}
       <section className="py-16 bg-gray-50">
-        <div className="container px-4">
+        <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl text-center mb-12 text-[#2C5F8D]">
             Comment ça marche ?
           </h2>
@@ -97,7 +97,7 @@ export function HomePage() {
                   Décrivez votre projet de rénovation en quelques clics
                 </p>
               </div>
-              
+
               <div className="text-center">
                 <div className="w-12 h-12 bg-[#FF8C42] text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
                   2
@@ -107,7 +107,7 @@ export function HomePage() {
                   Les compagnons vous envoient leurs propositions
                 </p>
               </div>
-              
+
               <div className="text-center">
                 <div className="w-12 h-12 bg-[#FF8C42] text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
                   3
@@ -124,7 +124,7 @@ export function HomePage() {
 
       {/* CTA Section */}
       <section className="py-16 bg-[#FF8C42] text-white">
-        <div className="container px-4 text-center">
+        <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl mb-6">
             Prêt à démarrer votre projet ?
           </h2>

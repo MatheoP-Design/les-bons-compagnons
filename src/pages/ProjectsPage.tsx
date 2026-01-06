@@ -7,9 +7,12 @@ import { Badge } from '../components/ui/badge';
 
 export function ProjectsPage() {
   const { projects } = useData();
+  
+  // Filtrer pour n'afficher que les projets terminés
+  const completedProjects = projects.filter(project => project.status === 'termine');
 
   return (
-    <div className="container px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl md:text-4xl mb-4 text-[#2C5F8D]">Projets réalisés</h1>
         <p className="text-muted-foreground">
@@ -18,7 +21,7 @@ export function ProjectsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((project) => {
+        {completedProjects.map((project) => {
           const mainImage = project.images.after[0] || project.images.during[0] || project.images.before[0];
           
           return (
@@ -28,7 +31,7 @@ export function ProjectsPage() {
                   <img
                     src={mainImage}
                     alt={project.title}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-28 object-cover"
                   />
                   <div className="p-4">
                     <div className="flex items-start justify-between mb-2">
@@ -55,10 +58,10 @@ export function ProjectsPage() {
         })}
       </div>
 
-      {projects.length === 0 && (
+      {completedProjects.length === 0 && (
         <Card>
           <CardContent className="p-12 text-center">
-            <p className="text-muted-foreground">Aucun projet pour le moment</p>
+            <p className="text-muted-foreground">Aucun projet terminé pour le moment</p>
           </CardContent>
         </Card>
       )}

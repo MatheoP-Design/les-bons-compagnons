@@ -59,7 +59,7 @@ export function AuthPage() {
   };
 
   return (
-    <div className="container px-4 py-12">
+    <div className="container mx-auto px-4 py-12">
       <div className="max-w-md mx-auto">
         <Tabs defaultValue="login" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
@@ -84,6 +84,7 @@ export function AuthPage() {
                       type="email"
                       value={loginEmail}
                       onChange={(e) => setLoginEmail(e.target.value)}
+                      placeholder="sophie@example.com"
                       required
                     />
                   </div>
@@ -95,6 +96,7 @@ export function AuthPage() {
                       type="password"
                       value={loginPassword}
                       onChange={(e) => setLoginPassword(e.target.value)}
+                      placeholder="123456"
                       required
                     />
                   </div>
@@ -102,6 +104,35 @@ export function AuthPage() {
                   <Button type="submit" className="w-full bg-[#FF8C42] hover:bg-[#FF8C42]/90">
                     Se connecter
                   </Button>
+                  
+                  <div className="mt-4 p-3 bg-gray-50 rounded-lg text-xs text-muted-foreground">
+                    <p className="font-semibold mb-2">Comptes de test :</p>
+                    <p><strong>Particuliers:</strong> sophie@example.com, pierre@example.com</p>
+                    <p><strong>Cadres:</strong> jean@compagnons.fr, paul@compagnons.fr</p>
+                    <p className="mt-1"><strong>Mot de passe:</strong> 123456</p>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="mt-2 w-full text-xs"
+                      onClick={() => {
+                        // Réinitialiser les utilisateurs
+                        const mockUsers = [
+                          { id: 'user1', email: 'sophie@example.com', password: '123456', firstName: 'Sophie', lastName: 'Bernard', phone: '06 12 34 56 78', city: 'Lyon', role: 'particulier' },
+                          { id: 'user2', email: 'pierre@example.com', password: '123456', firstName: 'Pierre', lastName: 'Martin', phone: '06 23 45 67 89', city: 'Paris', role: 'particulier' },
+                          { id: 'user3', email: 'marie@example.com', password: '123456', firstName: 'Marie', lastName: 'Dubois', phone: '06 34 56 78 90', city: 'Bordeaux', role: 'particulier' },
+                          { id: 'user4', email: 'lucas@example.com', password: '123456', firstName: 'Lucas', lastName: 'Moreau', phone: '06 45 67 89 01', city: 'Toulouse', role: 'particulier' },
+                          { id: 'cadre1', email: 'jean@compagnons.fr', password: '123456', firstName: 'Jean', lastName: 'Dupont', phone: '06 11 22 33 44', city: 'Lyon', role: 'cadre' },
+                          { id: 'cadre2', email: 'paul@compagnons.fr', password: '123456', firstName: 'Paul', lastName: 'Lefebvre', phone: '06 22 33 44 55', city: 'Paris', role: 'cadre' },
+                          { id: 'cadre3', email: 'michel@compagnons.fr', password: '123456', firstName: 'Michel', lastName: 'Garnier', phone: '06 33 44 55 66', city: 'Bordeaux', role: 'cadre' },
+                        ];
+                        localStorage.setItem('users', JSON.stringify(mockUsers));
+                        toast.success('Comptes réinitialisés ! Vous pouvez maintenant vous connecter.');
+                      }}
+                    >
+                      Réinitialiser les comptes de test
+                    </Button>
+                  </div>
                 </form>
               </CardContent>
             </Card>

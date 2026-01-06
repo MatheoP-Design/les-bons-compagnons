@@ -15,7 +15,7 @@ export function ProjectDetailPage() {
   const { id } = useParams();
   const { user, isAuthenticated } = useAuth();
   const { projects, reviews, addReview, announcements } = useData();
-  
+
   const [rating, setRating] = useState(5);
   const [reviewComment, setReviewComment] = useState('');
 
@@ -25,7 +25,7 @@ export function ProjectDetailPage() {
 
   if (!project) {
     return (
-      <div className="container px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
         <Card>
           <CardContent className="p-12 text-center">
             <p className="text-muted-foreground">Projet introuvable</p>
@@ -40,7 +40,7 @@ export function ProjectDetailPage() {
 
   const handleSubmitReview = () => {
     if (!user || !reviewComment.trim()) return;
-    
+
     addReview({
       projectId: project.id,
       userId: user.id,
@@ -48,14 +48,14 @@ export function ProjectDetailPage() {
       rating,
       comment: reviewComment,
     });
-    
+
     toast.success('Avis publié avec succès');
     setReviewComment('');
     setRating(5);
   };
 
   return (
-    <div className="container px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Project Header */}
         <Card>
@@ -89,7 +89,7 @@ export function ProjectDetailPage() {
                 {project.status === 'termine' ? 'Terminé' : 'En cours'}
               </Badge>
             </div>
-            
+
             <p className="text-foreground">{project.description}</p>
           </CardContent>
         </Card>
@@ -106,7 +106,7 @@ export function ProjectDetailPage() {
                 <TabsTrigger value="during">Pendant</TabsTrigger>
                 <TabsTrigger value="after">Après</TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="before" className="mt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {project.images.before.length > 0 ? (
@@ -115,7 +115,7 @@ export function ProjectDetailPage() {
                         key={idx}
                         src={img}
                         alt={`Avant ${idx + 1}`}
-                        className="w-full h-64 object-cover rounded-lg"
+                        className="w-full h-32 object-cover rounded-lg"
                       />
                     ))
                   ) : (
@@ -125,7 +125,7 @@ export function ProjectDetailPage() {
                   )}
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="during" className="mt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {project.images.during.length > 0 ? (
@@ -134,7 +134,7 @@ export function ProjectDetailPage() {
                         key={idx}
                         src={img}
                         alt={`Pendant ${idx + 1}`}
-                        className="w-full h-64 object-cover rounded-lg"
+                        className="w-full h-32 object-cover rounded-lg"
                       />
                     ))
                   ) : (
@@ -144,7 +144,7 @@ export function ProjectDetailPage() {
                   )}
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="after" className="mt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {project.images.after.length > 0 ? (
@@ -153,7 +153,7 @@ export function ProjectDetailPage() {
                         key={idx}
                         src={img}
                         alt={`Après ${idx + 1}`}
-                        className="w-full h-64 object-cover rounded-lg"
+                        className="w-full h-32 object-cover rounded-lg"
                       />
                     ))
                   ) : (
@@ -187,9 +187,8 @@ export function ProjectDetailPage() {
                       {Array.from({ length: 5 }).map((_, i) => (
                         <Star
                           key={i}
-                          className={`h-4 w-4 ${
-                            i < review.rating ? 'fill-[#FF8C42] text-[#FF8C42]' : 'text-gray-300'
-                          }`}
+                          className={`h-4 w-4 ${i < review.rating ? 'fill-[#FF8C42] text-[#FF8C42]' : 'text-gray-300'
+                            }`}
                         />
                       ))}
                     </div>
@@ -223,15 +222,14 @@ export function ProjectDetailPage() {
                       className="focus:outline-none"
                     >
                       <Star
-                        className={`h-8 w-8 cursor-pointer transition-colors ${
-                          i < rating ? 'fill-[#FF8C42] text-[#FF8C42]' : 'text-gray-300 hover:text-[#FF8C42]/50'
-                        }`}
+                        className={`h-8 w-8 cursor-pointer transition-colors ${i < rating ? 'fill-[#FF8C42] text-[#FF8C42]' : 'text-gray-300 hover:text-[#FF8C42]/50'
+                          }`}
                       />
                     </button>
                   ))}
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="review">Votre avis</Label>
                 <Textarea
@@ -242,7 +240,7 @@ export function ProjectDetailPage() {
                   rows={4}
                 />
               </div>
-              
+
               <Button onClick={handleSubmitReview} className="bg-[#FF8C42] hover:bg-[#FF8C42]/90">
                 Publier l'avis
               </Button>

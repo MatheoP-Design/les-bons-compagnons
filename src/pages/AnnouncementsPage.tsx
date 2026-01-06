@@ -32,16 +32,21 @@ export function AnnouncementsPage() {
   const cities = Array.from(new Set(announcements.map(a => a.city)));
 
   const filteredAnnouncements = announcements.filter(announcement => {
+    // Exclure les annonces terminées et refusées
+    if (announcement.status === 'termine' || announcement.status === 'refuse') {
+      return false;
+    }
+
     const matchesSearch = announcement.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         announcement.description.toLowerCase().includes(searchTerm.toLowerCase());
+      announcement.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'all' || announcement.status === filterStatus;
     const matchesCity = filterCity === 'all' || announcement.city === filterCity;
-    
+
     return matchesSearch && matchesStatus && matchesCity;
   });
 
   return (
-    <div className="container px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl md:text-4xl mb-4 text-[#2C5F8D]">Toutes les annonces</h1>
         <p className="text-muted-foreground">
@@ -56,16 +61,18 @@ export function AnnouncementsPage() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        
+
         <Select value={filterStatus} onValueChange={setFilterStatus}>
           <SelectTrigger>
             <SelectValue placeholder="Filtrer par statut" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Tous les statuts</SelectItem>
-            {Object.entries(statusLabels).map(([value, { label }]) => (
-              <SelectItem key={value} value={value}>{label}</SelectItem>
-            ))}
+            {Object.entries(statusLabels)
+              .filter(([value]) => value !== 'termine' && value !== 'refuse')
+              .map(([value, { label }]) => (
+                <SelectItem key={value} value={value}>{label}</SelectItem>
+              ))}
           </SelectContent>
         </Select>
 
@@ -83,20 +90,23 @@ export function AnnouncementsPage() {
       </div>
 
       {/* Announcements List */}
-      <div className="space-y-6">
-        {filteredAnnouncements.map((announcement) => (
-          <Link key={announcement.id} to={`/annonce/${announcement.id}`}>
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <CardContent className="p-0">
+      <div>
+        {filteredAnnouncements.map((announcement, index) => (
+          <div key={announcement.id} style={{ marginBottom: index < filteredAnnouncements.length - 1 ? '32px' : '0' }}>
+            <Link
+              to={`/annonce/${announcement.id}`}
+              className="block"
+            >
+              <Card className="overflow-hidden hover:shadow-lg transition-shadow gap-0">
                 <div className="flex flex-col md:flex-row">
-                  <div className="md:w-1/3 h-48 md:h-auto">
+                  <div className="md:w-1/3 h-64 md:h-72 flex-shrink-0">
                     <img
                       src={announcement.imageUrl}
                       alt={announcement.title}
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  
+
                   <div className="flex-1 p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div>
@@ -117,15 +127,15 @@ export function AnnouncementsPage() {
                         {statusLabels[announcement.status].label}
                       </Badge>
                     </div>
-                    
+
                     <p className="text-muted-foreground line-clamp-3">
                       {announcement.description}
                     </p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </Link>
+              </Card>
+            </Link>
+          </div>
         ))}
 
         {filteredAnnouncements.length === 0 && (
