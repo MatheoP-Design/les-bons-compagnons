@@ -1,26 +1,27 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { DataProvider } from './contexts/DataContext';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
-import { HomePage } from './pages/HomePage';
-import { AnnouncementsPage } from './pages/AnnouncementsPage';
-import { AnnouncementDetailPage } from './pages/AnnouncementDetailPage';
-import { ProjectsPage } from './pages/ProjectsPage';
-import { ProjectDetailPage } from './pages/ProjectDetailPage';
-import { AuthPage } from './pages/AuthPage';
-import { DashboardPage } from './pages/DashboardPage';
-import { ProfilePage } from './pages/ProfilePage';
-import { Toaster } from './components/ui/sonner';
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { DataProvider } from "./contexts/DataContext";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import { HomePage } from "./pages/HomePage";
+import { AnnouncementsPage } from "./pages/AnnouncementsPage";
+import { AnnouncementDetailPage } from "./pages/AnnouncementDetailPage";
+import { ProjectsPage } from "./pages/ProjectsPage";
+import { ProjectDetailPage } from "./pages/ProjectDetailPage";
+import { AuthPage } from "./pages/AuthPage";
+import { DashboardPage } from "./pages/DashboardPage";
+import { ProfilePage } from "./pages/ProfilePage";
+import { Toaster } from "./components/ui/sonner";
+import { CommunityPage } from "./pages/CommunityPage";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth();
-  
+
   if (!isAuthenticated) {
     return <Navigate to="/connexion" replace />;
   }
-  
+
   return <>{children}</>;
 }
 
@@ -36,6 +37,8 @@ function AppRoutes() {
           <Route path="/projets" element={<ProjectsPage />} />
           <Route path="/projet/:id" element={<ProjectDetailPage />} />
           <Route path="/connexion" element={<AuthPage />} />
+          <Route path="/communauté" element={<CommunityPage />} />
+
           <Route
             path="/tableau-de-bord"
             element={
