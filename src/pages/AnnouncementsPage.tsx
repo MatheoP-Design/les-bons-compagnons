@@ -97,7 +97,7 @@ export function AnnouncementsPage() {
               to={`/annonce/${announcement.id}`}
               className="block"
             >
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow gap-0">
+              <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-[#FF8C42] gap-0">
                 <div className="flex flex-col md:flex-row">
                   <div className="md:w-1/3 h-64 md:h-72 flex-shrink-0">
                     <img

@@ -42,6 +42,7 @@ export interface Message {
 export interface Project {
   id: string;
   announcementId: string;
+  cadreId: string;
   title: string;
   description: string;
   city: string;

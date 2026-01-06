@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { 
-  Announcement, 
-  Quote, 
-  Message, 
-  Project, 
-  Review, 
+import type {
+  Announcement,
+  Quote,
+  Message,
+  Project,
+  Review,
   Notification,
-  AnnouncementStatus 
+  AnnouncementStatus
 } from '../types';
 import { useAuth } from './AuthContext';
 
@@ -185,6 +185,7 @@ const mockProjects: Project[] = [
   {
     id: 'p1',
     announcementId: '3',
+    cadreId: 'cadre3',
     title: 'Rénovation toiture maison ancienne',
     description: 'Rénovation complète de la toiture avec remplacement des tuiles endommagées et traitement de la charpente.',
     city: 'Bordeaux',
@@ -206,6 +207,7 @@ const mockProjects: Project[] = [
   {
     id: 'p2',
     announcementId: '4',
+    cadreId: 'cadre1',
     title: 'Parquet ancien restauré',
     description: 'Restauration complète du parquet en chêne massif avec finition huilée.',
     city: 'Toulouse',
@@ -252,23 +254,91 @@ const mockReviews: Review[] = [
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
-  const [announcements, setAnnouncements] = useState<Announcement[]>(mockAnnouncements);
-  const [quotes, setQuotes] = useState<Quote[]>(mockQuotes);
-  const [messages, setMessages] = useState<Message[]>(mockMessages);
-  const [projects, setProjects] = useState<Project[]>(mockProjects);
-  const [reviews, setReviews] = useState<Review[]>(mockReviews);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  // Helper function to load data from localStorage or use mock data
+  const loadData = <T,>(key: string, mockData: T[]): T[] => {
+    try {
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Convert date strings back to Date objects
+        return parsed.map((item: any) => {
+          if (item.createdAt) item.createdAt = new Date(item.createdAt);
+          if (item.startDate) item.startDate = new Date(item.startDate);
+          if (item.endDate) item.endDate = new Date(item.endDate);
+          return item;
+        });
+      }
+    } catch (e) {
+      console.error(`Error loading ${key} from localStorage:`, e);
+    }
+    return mockData;
+  };
+
+  // Helper function to save data to localStorage
+  const saveData = <T,>(key: string, data: T[]) => {
+    try {
+      localStorage.setItem(key, JSON.stringify(data));
+    } catch (e) {
+      console.error(`Error saving ${key} to localStorage:`, e);
+    }
+  };
+
+  // Load initial data from localStorage or use mock data
+  const [announcements, setAnnouncements] = useState<Announcement[]>(() =>
+    loadData('app_announcements', mockAnnouncements)
+  );
+  const [quotes, setQuotes] = useState<Quote[]>(() =>
+    loadData('app_quotes', mockQuotes)
+  );
+  const [messages, setMessages] = useState<Message[]>(() =>
+    loadData('app_messages', mockMessages)
+  );
+  const [projects, setProjects] = useState<Project[]>(() =>
+    loadData('app_projects', mockProjects)
+  );
+  const [reviews, setReviews] = useState<Review[]>(() =>
+    loadData('app_reviews', mockReviews)
+  );
+  const [notifications, setNotifications] = useState<Notification[]>(() =>
+    loadData('app_notifications', [])
+  );
+
+  // Save to localStorage whenever data changes
+  useEffect(() => {
+    saveData('app_announcements', announcements);
+  }, [announcements]);
+
+  useEffect(() => {
+    saveData('app_quotes', quotes);
+  }, [quotes]);
+
+  useEffect(() => {
+    saveData('app_messages', messages);
+  }, [messages]);
+
+  useEffect(() => {
+    saveData('app_projects', projects);
+  }, [projects]);
+
+  useEffect(() => {
+    saveData('app_reviews', reviews);
+  }, [reviews]);
+
+  useEffect(() => {
+    saveData('app_notifications', notifications);
+  }, [notifications]);
 
   const addAnnouncement = (announcement: Omit<Announcement, 'id' | 'userId' | 'createdAt'>) => {
     if (!user) return;
-    
+
     const newAnnouncement: Announcement = {
       ...announcement,
       id: Date.now().toString(),
       userId: user.id,
       createdAt: new Date(),
     };
-    
+
     setAnnouncements([newAnnouncement, ...announcements]);
   };
 
@@ -278,11 +348,11 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       id: Date.now().toString(),
       createdAt: new Date(),
     };
-    
+
     setQuotes([...quotes, newQuote]);
-    
+
     // Update announcement status
-    setAnnouncements(announcements.map(a => 
+    setAnnouncements(announcements.map(a =>
       a.id === quote.announcementId ? { ...a, status: 'devis_envoye' } : a
     ));
 
@@ -306,7 +376,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       id: Date.now().toString(),
       createdAt: new Date(),
     };
-    
+
     setMessages([...messages, newMessage]);
 
     // Add notification for the recipient
@@ -324,16 +394,16 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateAnnouncementStatus = (announcementId: string, status: AnnouncementStatus) => {
-    setAnnouncements(announcements.map(a => 
+    setAnnouncements(announcements.map(a =>
       a.id === announcementId ? { ...a, status } : a
     ));
   };
 
   const acceptQuote = (quoteId: string, announcementId: string) => {
-    setQuotes(quotes.map(q => 
+    setQuotes(quotes.map(q =>
       q.id === quoteId ? { ...q, accepted: true } : q
     ));
-    
+
     updateAnnouncementStatus(announcementId, 'en_cours');
 
     const quote = quotes.find(q => q.id === quoteId);
@@ -353,6 +423,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         const newProject: Project = {
           id: Date.now().toString(),
           announcementId: announcement.id,
+          cadreId: quote.cadreId,
           title: announcement.title,
           description: announcement.description,
           city: announcement.city,
@@ -371,7 +442,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   };
 
   const refuseQuote = (quoteId: string) => {
-    setQuotes(quotes.map(q => 
+    setQuotes(quotes.map(q =>
       q.id === quoteId ? { ...q, accepted: false } : q
     ));
   };
@@ -382,12 +453,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       id: Date.now().toString(),
       createdAt: new Date(),
     };
-    
+
     setReviews([...reviews, newReview]);
   };
 
   const markNotificationAsRead = (notificationId: string) => {
-    setNotifications(notifications.map(n => 
+    setNotifications(notifications.map(n =>
       n.id === notificationId ? { ...n, read: true } : n
     ));
   };
@@ -398,12 +469,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       id: Date.now().toString(),
       createdAt: new Date(),
     };
-    
+
     setNotifications([newNotification, ...notifications]);
   };
 
   const updateProject = (projectId: string, updates: Partial<Project>) => {
-    setProjects(projects.map(p => 
+    setProjects(projects.map(p =>
       p.id === projectId ? { ...p, ...updates } : p
     ));
   };

@@ -26,7 +26,7 @@ export function ProjectsPage() {
           
           return (
             <Link key={project.id} to={`/projet/${project.id}`}>
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow h-full">
+              <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-[#FF8C42] h-full">
                 <CardContent className="p-0">
                   <img
                     src={mainImage}
