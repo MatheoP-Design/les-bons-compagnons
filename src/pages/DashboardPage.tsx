@@ -63,7 +63,7 @@ export function DashboardPage() {
     addAnnouncement({
       ...newAnnouncement,
       status: 'en_attente',
-      imageUrl: newAnnouncement.imageUrl || 'https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      imageUrl: newAnnouncement.imageUrl || 'https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080',
     });
 
     toast.success('Annonce créée avec succès');

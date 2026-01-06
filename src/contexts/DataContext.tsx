@@ -40,7 +40,7 @@ const mockAnnouncements: Announcement[] = [
     city: 'Lyon',
     renovationType: 'Escalier',
     status: 'devis_envoye',
-    imageUrl: 'https://images.unsplash.com/photo-1563091520-bff57a3f09ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdGFpcmNhc2UlMjB3b29kd29ya3xlbnwxfHx8fDE3Njc2ODg2MDl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    imageUrl: 'https://images.unsplash.com/photo-1563091520-bff57a3f09ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdGFpcmNhc2UlMjB3b29kd29ya3xlbnwxfHx8fDE3Njc2ODg2MDl8MA&ixlib=rb-4.1.0&q=80&w=1080',
     createdAt: new Date('2026-01-02'),
   },
   {
@@ -51,7 +51,7 @@ const mockAnnouncements: Announcement[] = [
     city: 'Paris',
     renovationType: 'Meuble',
     status: 'en_attente',
-    imageUrl: 'https://images.unsplash.com/photo-1572726122567-214c77bb8dd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b29kZW4lMjBmdXJuaXR1cmUlMjByZXN0b3JhdGlvbnxlbnwxfHx8fDE3Njc2ODg2MDh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    imageUrl: 'https://images.unsplash.com/photo-1572726122567-214c77bb8dd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b29kZW4lMjBmdXJuaXR1cmUlMjByZXN0b3JhdGlvbnxlbnwxfHx8fDE3Njc2ODg2MDh8MA&ixlib=rb-4.1.0&q=80&w=1080',
     createdAt: new Date('2026-01-04'),
   },
   {
@@ -62,7 +62,7 @@ const mockAnnouncements: Announcement[] = [
     city: 'Bordeaux',
     renovationType: 'Toiture',
     status: 'en_cours',
-    imageUrl: 'https://images.unsplash.com/photo-1763665814485-a0a1b6f51ed7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb29mJTIwcmVub3ZhdGlvbiUyMGNvbnN0cnVjdGlvbnxlbnwxfHx8fDE3Njc2MTI0MjB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    imageUrl: 'https://images.unsplash.com/photo-1763665814485-a0a1b6f51ed7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb29mJTIwcmVub3ZhdGlvbiUyMGNvbnN0cnVjdGlvbnxlbnwxfHx8fDE3Njc2MTI0MjB8MA&ixlib=rb-4.1.0&q=80&w=1080',
     createdAt: new Date('2025-12-28'),
   },
   {
@@ -73,7 +73,7 @@ const mockAnnouncements: Announcement[] = [
     city: 'Toulouse',
     renovationType: 'Parquet',
     status: 'termine',
-    imageUrl: 'https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    imageUrl: 'https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080',
     createdAt: new Date('2025-12-15'),
   },
 ];
@@ -111,8 +111,8 @@ const mockProjects: Project[] = [
     city: 'Bordeaux',
     renovationType: 'Toiture',
     images: {
-      before: ['https://images.unsplash.com/photo-1763665814485-a0a1b6f51ed7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb29mJTIwcmVub3ZhdGlvbiUyMGNvbnN0cnVjdGlvbnxlbnwxfHx8fDE3Njc2MTI0MjB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'],
-      during: ['https://images.unsplash.com/photo-1687818800037-325ba3b2752a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMGNhcnBlbnRyeSUyMHRvb2xzfGVufDF8fHx8MTc2NzY4ODYwOHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'],
+      before: ['https://images.unsplash.com/photo-1763665814485-a0a1b6f51ed7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb29mJTIwcmVub3ZhdGlvbiUyMGNvbnN0cnVjdGlvbnxlbnwxfHx8fDE3Njc2MTI0MjB8MA&ixlib=rb-4.1.0&q=80&w=1080'],
+      during: ['https://images.unsplash.com/photo-1687818800037-325ba3b2752a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMGNhcnBlbnRyeSUyMHRvb2xzfGVufDF8fHx8MTc2NzY4ODYwOHww&ixlib=rb-4.1.0&q=80&w=1080'],
       after: [],
     },
     startDate: new Date('2026-01-02'),
@@ -126,9 +126,9 @@ const mockProjects: Project[] = [
     city: 'Toulouse',
     renovationType: 'Parquet',
     images: {
-      before: ['https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'],
-      during: ['https://images.unsplash.com/photo-1661446520690-b92b30acf318?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcmFmdHNtYW4lMjB3b29kd29yayUyMHJlbm92YXRpb258ZW58MXx8fHwxNzY3Njg4NjA4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'],
-      after: ['https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'],
+      before: ['https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080'],
+      during: ['https://images.unsplash.com/photo-1661446520690-b92b30acf318?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcmFmdHNtYW4lMjB3b29kd29yayUyMHJlbm92YXRpb258ZW58MXx8fHwxNzY3Njg4NjA4fDA&ixlib=rb-4.1.0&q=80&w=1080'],
+      after: ['https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080'],
     },
     startDate: new Date('2025-12-18'),
     endDate: new Date('2025-12-28'),
