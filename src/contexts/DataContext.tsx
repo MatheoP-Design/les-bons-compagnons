@@ -1,0 +1,334 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import type { 
+  Announcement, 
+  Quote, 
+  Message, 
+  Project, 
+  Review, 
+  Notification,
+  AnnouncementStatus 
+} from '../types';
+import { useAuth } from './AuthContext';
+
+interface DataContextType {
+  announcements: Announcement[];
+  quotes: Quote[];
+  messages: Message[];
+  projects: Project[];
+  reviews: Review[];
+  notifications: Notification[];
+  addAnnouncement: (announcement: Omit<Announcement, 'id' | 'userId' | 'createdAt'>) => void;
+  addQuote: (quote: Omit<Quote, 'id' | 'createdAt'>) => void;
+  addMessage: (message: Omit<Message, 'id' | 'createdAt'>) => void;
+  updateAnnouncementStatus: (announcementId: string, status: AnnouncementStatus) => void;
+  acceptQuote: (quoteId: string, announcementId: string) => void;
+  refuseQuote: (quoteId: string) => void;
+  addReview: (review: Omit<Review, 'id' | 'createdAt'>) => void;
+  markNotificationAsRead: (notificationId: string) => void;
+  addNotification: (notification: Omit<Notification, 'id' | 'createdAt'>) => void;
+}
+
+const DataContext = createContext<DataContextType | undefined>(undefined);
+
+// Mock data
+const mockAnnouncements: Announcement[] = [
+  {
+    id: '1',
+    userId: 'user1',
+    title: 'Rénovation escalier en chêne',
+    description: 'Je recherche un artisan compagnon pour rénover mon escalier ancien en chêne. L\'escalier a besoin d\'un ponçage complet et d\'un nouveau vernis. Environ 15 marches.',
+    city: 'Lyon',
+    renovationType: 'Escalier',
+    status: 'devis_envoye',
+    imageUrl: 'https://images.unsplash.com/photo-1563091520-bff57a3f09ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdGFpcmNhc2UlMjB3b29kd29ya3xlbnwxfHx8fDE3Njc2ODg2MDl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    createdAt: new Date('2026-01-02'),
+  },
+  {
+    id: '2',
+    userId: 'user2',
+    title: 'Restauration meuble ancien',
+    description: 'Buffet familial du XIXe siècle nécessitant une restauration complète. Le bois doit être traité et les finitions refaites dans le respect des techniques traditionnelles.',
+    city: 'Paris',
+    renovationType: 'Meuble',
+    status: 'en_attente',
+    imageUrl: 'https://images.unsplash.com/photo-1572726122567-214c77bb8dd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b29kZW4lMjBmdXJuaXR1cmUlMjByZXN0b3JhdGlvbnxlbnwxfHx8fDE3Njc2ODg2MDh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    createdAt: new Date('2026-01-04'),
+  },
+  {
+    id: '3',
+    userId: 'user3',
+    title: 'Rénovation toiture maison ancienne',
+    description: 'Toiture d\'une maison du XVIIIe siècle à rénover. Remplacement de tuiles cassées et traitement de la charpente. Surface environ 100m².',
+    city: 'Bordeaux',
+    renovationType: 'Toiture',
+    status: 'en_cours',
+    imageUrl: 'https://images.unsplash.com/photo-1763665814485-a0a1b6f51ed7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb29mJTIwcmVub3ZhdGlvbiUyMGNvbnN0cnVjdGlvbnxlbnwxfHx8fDE3Njc2MTI0MjB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    createdAt: new Date('2025-12-28'),
+  },
+  {
+    id: '4',
+    userId: 'user4',
+    title: 'Parquet ancien à restaurer',
+    description: 'Parquet en chêne massif d\'un appartement haussmannien. Nécessite ponçage, traitement et finition huilée. Surface de 45m².',
+    city: 'Toulouse',
+    renovationType: 'Parquet',
+    status: 'termine',
+    imageUrl: 'https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    createdAt: new Date('2025-12-15'),
+  },
+];
+
+const mockQuotes: Quote[] = [
+  {
+    id: 'q1',
+    announcementId: '1',
+    cadreId: 'cadre1',
+    cadreName: 'Jean Dupont',
+    amount: 2500,
+    description: 'Devis pour la rénovation complète de l\'escalier en chêne incluant ponçage, traitement et application de trois couches de vernis.',
+    estimatedDuration: '3-4 jours',
+    createdAt: new Date('2026-01-03'),
+  },
+];
+
+const mockMessages: Message[] = [
+  {
+    id: 'm1',
+    announcementId: '1',
+    senderId: 'cadre1',
+    senderName: 'Jean Dupont',
+    content: 'Bonjour, j\'ai bien reçu votre demande. Je peux me déplacer pour évaluer les travaux cette semaine.',
+    createdAt: new Date('2026-01-03T10:30:00'),
+  },
+];
+
+const mockProjects: Project[] = [
+  {
+    id: 'p1',
+    announcementId: '3',
+    title: 'Rénovation toiture maison ancienne',
+    description: 'Rénovation complète de la toiture avec remplacement des tuiles endommagées et traitement de la charpente.',
+    city: 'Bordeaux',
+    renovationType: 'Toiture',
+    images: {
+      before: ['https://images.unsplash.com/photo-1763665814485-a0a1b6f51ed7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb29mJTIwcmVub3ZhdGlvbiUyMGNvbnN0cnVjdGlvbnxlbnwxfHx8fDE3Njc2MTI0MjB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'],
+      during: ['https://images.unsplash.com/photo-1687818800037-325ba3b2752a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMGNhcnBlbnRyeSUyMHRvb2xzfGVufDF8fHx8MTc2NzY4ODYwOHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'],
+      after: [],
+    },
+    startDate: new Date('2026-01-02'),
+    status: 'en_cours',
+  },
+  {
+    id: 'p2',
+    announcementId: '4',
+    title: 'Parquet ancien restauré',
+    description: 'Restauration complète du parquet en chêne massif avec finition huilée.',
+    city: 'Toulouse',
+    renovationType: 'Parquet',
+    images: {
+      before: ['https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'],
+      during: ['https://images.unsplash.com/photo-1661446520690-b92b30acf318?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcmFmdHNtYW4lMjB3b29kd29yayUyMHJlbm92YXRpb258ZW58MXx8fHwxNzY3Njg4NjA4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'],
+      after: ['https://images.unsplash.com/photo-1646592491550-6ef7a11ecc58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob21lJTIwcmVub3ZhdGlvbiUyMGludGVyaW9yfGVufDF8fHx8MTc2NzY1ODUyN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'],
+    },
+    startDate: new Date('2025-12-18'),
+    endDate: new Date('2025-12-28'),
+    status: 'termine',
+  },
+];
+
+const mockReviews: Review[] = [
+  {
+    id: 'r1',
+    projectId: 'p2',
+    userId: 'user4',
+    userName: 'Marie Martin',
+    rating: 5,
+    comment: 'Travail exceptionnel ! Le parquet est magnifique, on dirait qu\'il est neuf. L\'artisan a fait preuve d\'un grand professionnalisme.',
+    createdAt: new Date('2025-12-30'),
+  },
+];
+
+export function DataProvider({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth();
+  const [announcements, setAnnouncements] = useState<Announcement[]>(mockAnnouncements);
+  const [quotes, setQuotes] = useState<Quote[]>(mockQuotes);
+  const [messages, setMessages] = useState<Message[]>(mockMessages);
+  const [projects, setProjects] = useState<Project[]>(mockProjects);
+  const [reviews, setReviews] = useState<Review[]>(mockReviews);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  const addAnnouncement = (announcement: Omit<Announcement, 'id' | 'userId' | 'createdAt'>) => {
+    if (!user) return;
+    
+    const newAnnouncement: Announcement = {
+      ...announcement,
+      id: Date.now().toString(),
+      userId: user.id,
+      createdAt: new Date(),
+    };
+    
+    setAnnouncements([newAnnouncement, ...announcements]);
+  };
+
+  const addQuote = (quote: Omit<Quote, 'id' | 'createdAt'>) => {
+    const newQuote: Quote = {
+      ...quote,
+      id: Date.now().toString(),
+      createdAt: new Date(),
+    };
+    
+    setQuotes([...quotes, newQuote]);
+    
+    // Update announcement status
+    setAnnouncements(announcements.map(a => 
+      a.id === quote.announcementId ? { ...a, status: 'devis_envoye' } : a
+    ));
+
+    // Add notification for the user who created the announcement
+    const announcement = announcements.find(a => a.id === quote.announcementId);
+    if (announcement) {
+      addNotification({
+        userId: announcement.userId,
+        type: 'quote',
+        title: 'Nouveau devis reçu',
+        message: `Vous avez reçu un devis de ${quote.cadreName} pour "${announcement.title}"`,
+        read: false,
+        relatedId: quote.announcementId,
+      });
+    }
+  };
+
+  const addMessage = (message: Omit<Message, 'id' | 'createdAt'>) => {
+    const newMessage: Message = {
+      ...message,
+      id: Date.now().toString(),
+      createdAt: new Date(),
+    };
+    
+    setMessages([...messages, newMessage]);
+
+    // Add notification for the recipient
+    const announcement = announcements.find(a => a.id === message.announcementId);
+    if (announcement && announcement.userId !== message.senderId) {
+      addNotification({
+        userId: announcement.userId,
+        type: 'message',
+        title: 'Nouveau message',
+        message: `${message.senderName} vous a envoyé un message`,
+        read: false,
+        relatedId: message.announcementId,
+      });
+    }
+  };
+
+  const updateAnnouncementStatus = (announcementId: string, status: AnnouncementStatus) => {
+    setAnnouncements(announcements.map(a => 
+      a.id === announcementId ? { ...a, status } : a
+    ));
+  };
+
+  const acceptQuote = (quoteId: string, announcementId: string) => {
+    setQuotes(quotes.map(q => 
+      q.id === quoteId ? { ...q, accepted: true } : q
+    ));
+    
+    updateAnnouncementStatus(announcementId, 'accepte');
+
+    const quote = quotes.find(q => q.id === quoteId);
+    if (quote) {
+      addNotification({
+        userId: quote.cadreId,
+        type: 'acceptance',
+        title: 'Devis accepté',
+        message: 'Votre devis a été accepté, le projet peut commencer',
+        read: false,
+        relatedId: announcementId,
+      });
+
+      // Create project
+      const announcement = announcements.find(a => a.id === announcementId);
+      if (announcement) {
+        const newProject: Project = {
+          id: Date.now().toString(),
+          announcementId: announcement.id,
+          title: announcement.title,
+          description: announcement.description,
+          city: announcement.city,
+          renovationType: announcement.renovationType,
+          images: {
+            before: [announcement.imageUrl],
+            during: [],
+            after: [],
+          },
+          startDate: new Date(),
+          status: 'en_cours',
+        };
+        setProjects([...projects, newProject]);
+      }
+    }
+  };
+
+  const refuseQuote = (quoteId: string) => {
+    setQuotes(quotes.map(q => 
+      q.id === quoteId ? { ...q, accepted: false } : q
+    ));
+  };
+
+  const addReview = (review: Omit<Review, 'id' | 'createdAt'>) => {
+    const newReview: Review = {
+      ...review,
+      id: Date.now().toString(),
+      createdAt: new Date(),
+    };
+    
+    setReviews([...reviews, newReview]);
+  };
+
+  const markNotificationAsRead = (notificationId: string) => {
+    setNotifications(notifications.map(n => 
+      n.id === notificationId ? { ...n, read: true } : n
+    ));
+  };
+
+  const addNotification = (notification: Omit<Notification, 'id' | 'createdAt'>) => {
+    const newNotification: Notification = {
+      ...notification,
+      id: Date.now().toString(),
+      createdAt: new Date(),
+    };
+    
+    setNotifications([newNotification, ...notifications]);
+  };
+
+  return (
+    <DataContext.Provider
+      value={{
+        announcements,
+        quotes,
+        messages,
+        projects,
+        reviews,
+        notifications,
+        addAnnouncement,
+        addQuote,
+        addMessage,
+        updateAnnouncementStatus,
+        acceptQuote,
+        refuseQuote,
+        addReview,
+        markNotificationAsRead,
+        addNotification,
+      }}
+    >
+      {children}
+    </DataContext.Provider>
+  );
+}
+
+export function useData() {
+  const context = useContext(DataContext);
+  if (context === undefined) {
+    throw new Error('useData must be used within a DataProvider');
+  }
+  return context;
+}
