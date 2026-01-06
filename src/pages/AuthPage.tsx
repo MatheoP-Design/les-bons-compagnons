@@ -18,11 +18,11 @@ import { toast } from 'sonner@2.0.3';
 export function AuthPage() {
   const navigate = useNavigate();
   const { login, register } = useAuth();
-  
+
   // Login state
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-  
+
   // Register state
   const [registerData, setRegisterData] = useState({
     email: '',
@@ -37,7 +37,7 @@ export function AuthPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const success = await login(loginEmail, loginPassword);
-    
+
     if (success) {
       toast.success('Connexion réussie !');
       navigate('/tableau-de-bord');
@@ -49,7 +49,7 @@ export function AuthPage() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     const success = await register(registerData);
-    
+
     if (success) {
       toast.success('Inscription réussie !');
       navigate('/tableau-de-bord');
@@ -66,7 +66,7 @@ export function AuthPage() {
             <TabsTrigger value="login">Connexion</TabsTrigger>
             <TabsTrigger value="register">Inscription</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="login">
             <Card>
               <CardHeader>
@@ -88,7 +88,7 @@ export function AuthPage() {
                       required
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="login-password">Mot de passe</Label>
                     <Input
@@ -100,15 +100,15 @@ export function AuthPage() {
                       required
                     />
                   </div>
-                  
+
                   <Button type="submit" className="w-full bg-[#FF8C42] hover:bg-[#FF8C42]/90">
                     Se connecter
                   </Button>
-                  
+
                   <div className="mt-4 p-3 bg-gray-50 rounded-lg text-xs text-muted-foreground">
                     <p className="font-semibold mb-2">Comptes de test :</p>
                     <p><strong>Particuliers:</strong> sophie@example.com, pierre@example.com</p>
-                    <p><strong>Cadres:</strong> jean@compagnons.fr, paul@compagnons.fr</p>
+                    <p><strong>Cadres:</strong> jean@compagnons.fr, paul@compagnons.fr, michel@compagnons.fr</p>
                     <p className="mt-1"><strong>Mot de passe:</strong> 123456</p>
                     <Button
                       type="button"
@@ -137,7 +137,7 @@ export function AuthPage() {
               </CardContent>
             </Card>
           </TabsContent>
-          
+
           <TabsContent value="register">
             <Card>
               <CardHeader>
@@ -158,7 +158,7 @@ export function AuthPage() {
                         required
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="lastName">Nom</Label>
                       <Input
@@ -169,7 +169,7 @@ export function AuthPage() {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
@@ -180,7 +180,7 @@ export function AuthPage() {
                       required
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="password">Mot de passe</Label>
                     <Input
@@ -191,7 +191,7 @@ export function AuthPage() {
                       required
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="phone">Téléphone</Label>
                     <Input
@@ -202,7 +202,7 @@ export function AuthPage() {
                       required
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="city">Ville</Label>
                     <Input
@@ -212,12 +212,12 @@ export function AuthPage() {
                       required
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="role">Rôle</Label>
                     <Select
                       value={registerData.role}
-                      onValueChange={(value: 'particulier' | 'cadre') => 
+                      onValueChange={(value: 'particulier' | 'cadre') =>
                         setRegisterData({ ...registerData, role: value })
                       }
                     >
@@ -230,7 +230,7 @@ export function AuthPage() {
                       </SelectContent>
                     </Select>
                   </div>
-                  
+
                   <Button type="submit" className="w-full bg-[#FF8C42] hover:bg-[#FF8C42]/90">
                     S'inscrire
                   </Button>

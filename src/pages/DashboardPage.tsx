@@ -510,23 +510,27 @@ export function DashboardPage() {
                 <Label className="text-base font-semibold mb-2 block">Images "Avant"</Label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
                   {editingProject.images.before.map((img, idx) => (
-                    <div key={idx} className="relative">
+                    <div key={idx} className="relative group overflow-visible">
                       <img src={img} alt={`Avant ${idx + 1}`} className="w-full h-24 object-cover rounded" />
-                      <button
-                        onClick={() => {
-                          const newImages = editingProject.images.before.filter((_, i) => i !== idx);
-                          updateProject(editingProject.id, {
-                            images: { ...editingProject.images, before: newImages }
-                          });
-                          setEditingProject({
-                            ...editingProject,
-                            images: { ...editingProject.images, before: newImages }
-                          });
-                        }}
-                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
+                      {editingProject.status === 'en_cours' && (
+                        <button
+                          onClick={() => {
+                            const newImages = editingProject.images.before.filter((_, i) => i !== idx);
+                            updateProject(editingProject.id, {
+                              images: { ...editingProject.images, before: newImages }
+                            });
+                            setEditingProject({
+                              ...editingProject,
+                              images: { ...editingProject.images, before: newImages }
+                            });
+                            toast.success('Image "avant" supprimée');
+                          }}
+                          className="absolute -top-1 -right-1 bg-white hover:bg-gray-100 text-red-600 rounded-full p-1.5 shadow-xl border-2 border-red-600 transition-all duration-200 hover:scale-110 z-50"
+                          title="Supprimer l'image"
+                        >
+                          <X className="h-4 w-4 text-red-600" />
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -570,23 +574,27 @@ export function DashboardPage() {
                 <Label className="text-base font-semibold mb-2 block">Images "Pendant"</Label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
                   {editingProject.images.during.map((img, idx) => (
-                    <div key={idx} className="relative">
+                    <div key={idx} className="relative group overflow-visible">
                       <img src={img} alt={`Pendant ${idx + 1}`} className="w-full h-24 object-cover rounded" />
-                      <button
-                        onClick={() => {
-                          const newImages = editingProject.images.during.filter((_, i) => i !== idx);
-                          updateProject(editingProject.id, {
-                            images: { ...editingProject.images, during: newImages }
-                          });
-                          setEditingProject({
-                            ...editingProject,
-                            images: { ...editingProject.images, during: newImages }
-                          });
-                        }}
-                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
+                      {editingProject.status === 'en_cours' && (
+                        <button
+                          onClick={() => {
+                            const newImages = editingProject.images.during.filter((_, i) => i !== idx);
+                            updateProject(editingProject.id, {
+                              images: { ...editingProject.images, during: newImages }
+                            });
+                            setEditingProject({
+                              ...editingProject,
+                              images: { ...editingProject.images, during: newImages }
+                            });
+                            toast.success('Image "pendant" supprimée');
+                          }}
+                          className="absolute -top-1 -right-1 bg-white hover:bg-gray-100 text-red-600 rounded-full p-1.5 shadow-xl border-2 border-red-600 transition-all duration-200 hover:scale-110 z-50"
+                          title="Supprimer l'image"
+                        >
+                          <X className="h-4 w-4 text-red-600" />
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -634,10 +642,9 @@ export function DashboardPage() {
                 <Label className="text-base font-semibold mb-2 block">Images "Après"</Label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
                   {editingProject.images.after.map((img, idx) => (
-                    <div key={idx} className="relative">
+                    <div key={idx} className="relative group overflow-visible">
                       <img src={img} alt={`Après ${idx + 1}`} className="w-full h-24 object-cover rounded" />
-                      {editingProject.status === 'termine' && (
-                        <button
+                      <button
                           onClick={() => {
                             const newImages = editingProject.images.after.filter((_, i) => i !== idx);
                             updateProject(editingProject.id, {
@@ -647,12 +654,13 @@ export function DashboardPage() {
                               ...editingProject,
                               images: { ...editingProject.images, after: newImages }
                             });
+                            toast.success('Image "après" supprimée');
                           }}
-                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                          className="absolute -top-1 -right-1 bg-white hover:bg-gray-100 text-red-600 rounded-full p-1.5 shadow-xl border-2 border-red-600 transition-all duration-200 hover:scale-110 z-50"
+                          title="Supprimer l'image"
                         >
-                          <X className="h-3 w-3" />
+                          <X className="h-4 w-4 text-red-600" />
                         </button>
-                      )}
                     </div>
                   ))}
                 </div>

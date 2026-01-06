@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { Award, Heart, Shield, Users } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
+import { useAuth } from '../contexts/AuthContext';
 
 export function HomePage() {
+  const { isAuthenticated } = useAuth();
   const values = [
     {
       icon: Award,
@@ -46,7 +48,7 @@ export function HomePage() {
                   Découvrir les annonces
                 </Button>
               </Link>
-              <Link to="/connexion">
+              <Link to={isAuthenticated ? "/tableau-de-bord" : "/connexion"}>
                 <Button size="lg" variant="outline" className="bg-white text-[#2C5F8D] hover:bg-white/90">
                   Créer une annonce
                 </Button>
@@ -131,7 +133,7 @@ export function HomePage() {
           <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
             Rejoignez notre communauté de particuliers et d'artisans passionnés par la préservation du patrimoine
           </p>
-          <Link to="/connexion">
+          <Link to={isAuthenticated ? "/tableau-de-bord" : "/connexion"}>
             <Button size="lg" className="bg-white text-[#FF8C42] hover:bg-white/90">
               Commencer maintenant
             </Button>
