@@ -5,6 +5,7 @@ import { Badge } from "../components/ui/badge";
 import { Textarea } from "../components/ui/textarea";
 import { Input } from "../components/ui/input";
 import { User, MessageCircle } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
 function PostCard({ post, onReply }) {
   const [reply, setReply] = useState("");
 
@@ -68,7 +69,7 @@ function PostCard({ post, onReply }) {
 
 export function CommunityPage() {
   // Simulation utilisateur connecté
-  const user = { id: 1, name: "Mike" };
+  const { user } = useAuth();
 
   const [posts, setPosts] = useState([
     {
@@ -92,7 +93,7 @@ export function CommunityPage() {
     setPosts([
       {
         id: Date.now(),
-        author: user.name,
+        author: user.firstName,
         content: newPost,
         image: newImage,
         replies: [],
