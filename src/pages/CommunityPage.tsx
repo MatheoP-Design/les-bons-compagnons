@@ -74,11 +74,11 @@ export function CommunityPage() {
   const [posts, setPosts] = useState([
     {
       id: 1,
-      author: "Jean",
+      author: "Jean Dubois",
       content: "Quelqu’un a déjà rénové une maison en pierre ?",
       image: null,
       replies: [
-        { id: 1, author: "Marie", content: "Oui, attention à l’humidité." },
+        { id: 1, author: "Marie Lepaul", content: "Oui, attention à l’humidité." },
       ],
       createdAt: "Il y a 2h",
     },
@@ -93,7 +93,7 @@ export function CommunityPage() {
     setPosts([
       {
         id: Date.now(),
-        author: user.firstName,
+        author: user.firstName + " " + user.lastName,
         content: newPost,
         image: newImage,
         replies: [],
@@ -118,7 +118,7 @@ export function CommunityPage() {
                 ...post.replies,
                 {
                   id: Date.now(),
-                  author: user.name,
+                  author: user.firstName + " " + user.lastName,
                   content: replyContent,
                 },
               ],
