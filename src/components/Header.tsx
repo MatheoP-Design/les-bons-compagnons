@@ -30,6 +30,7 @@ export function Header() {
     { to: '/', label: 'Accueil' },
     { to: '/annonces', label: 'Annonces' },
     { to: '/projets', label: 'Projets' },
+    { to: '/communauté', label: 'Communauté' },
   ];
 
   return (
