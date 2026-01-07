@@ -68,7 +68,6 @@ export function DashboardPage() {
   });
 
   if (!user) {
-    navigate("/connexion");
     return null;
   }
 

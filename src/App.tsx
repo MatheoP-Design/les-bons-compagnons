@@ -17,7 +17,17 @@ import { CommunityPage } from "./pages/CommunityPage";
 import { DonationsPage } from "./pages/DonationsPage";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <p className="text-muted-foreground">Chargement...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/connexion" replace />;
@@ -38,7 +48,14 @@ function AppRoutes() {
           <Route path="/projets" element={<ProjectsPage />} />
           <Route path="/projet/:id" element={<ProjectDetailPage />} />
           <Route path="/connexion" element={<AuthPage />} />
-          <Route path="/communauté" element={<CommunityPage />} />
+          <Route
+            path="/communauté"
+            element={
+              <ProtectedRoute>
+                <CommunityPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/dons" element={<DonationsPage />} />
 
           <Route
