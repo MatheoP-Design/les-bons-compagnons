@@ -375,6 +375,9 @@ export function DashboardPage() {
           <p className="text-muted-foreground">
             Bienvenue {user.firstName} {user.lastName}
           </p>
+          <Badge className="mt-4 bg-[#FF8C42]">
+            🪙 {user.points_fidelite ?? 0} points de fidélité
+          </Badge>
         </div>
         <Button
           onClick={() => {

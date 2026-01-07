@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
@@ -13,6 +13,16 @@ import {
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
+interface MaterialDonation {
+  id: number;
+  donor: string;
+  name: string;
+  condition: string;
+  description?: string;
+  image?: string;
+  createdAt: string;
+}
+
 export function DonationsPage() {
   const { user, addPoints } = useAuth();
 
@@ -25,13 +35,41 @@ export function DonationsPage() {
     name: "",
     condition: "",
     description: "",
+    image: null as string | null,
   });
+
+  const [donations, setDonations] = useState<MaterialDonation[]>([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("material_donations");
+    if (saved) {
+      setDonations(JSON.parse(saved));
+    }
+  }, []);
+
+  const saveDonations = (data: MaterialDonation[]) => {
+    localStorage.setItem("material_donations", JSON.stringify(data));
+    setDonations(data);
+  };
 
   const handleMaterialDonation = () => {
     if (!user || !material.name || !material.condition) return;
 
-    addPoints(50); // +50 points fixes
-    setMaterial({ name: "", condition: "", description: "" });
+    const newDonation: MaterialDonation = {
+      id: Date.now(),
+      donor: `${user.firstName} ${user.lastName}`,
+      name: material.name,
+      condition: material.condition,
+      description: material.description,
+      image: material.image || undefined,
+      createdAt: "À l’instant",
+    };
+
+    const updated = [newDonation, ...donations];
+    saveDonations(updated);
+
+    addPoints(50);
+    setMaterial({ name: "", condition: "", description: "", image: null });
     setSuccessMessage("Merci pour votre don de matériel ! +50 points 🎉");
   };
 
@@ -44,7 +82,7 @@ export function DonationsPage() {
     const value = Number(amount);
     if (!user || !value || value <= 0) return;
 
-    const earnedPoints = value * 10; // 1€ = 10 points
+    const earnedPoints = value * 10;
     addPoints(earnedPoints);
     setAmount("");
     setSuccessMessage(`Merci pour votre don ! +${earnedPoints} points 🎉`);
@@ -96,9 +134,9 @@ export function DonationsPage() {
       {/* =======================
           DON DE MATÉRIEL
       ======================= */}
-      <Card className="mb-8 shadow-lg border-2 border-[#FF8C42]/20 bg-gradient-to-br from-white to-[#FF8C42]/5">
+      <Card className="mb-10 shadow-lg border-2 border-[#FF8C42]/20 bg-gradient-to-br from-white to-[#FF8C42]/5">
         <CardContent className="p-6 space-y-4">
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-3">
             <Gift className="h-6 w-6 text-[#FF8C42]" />
             <h2 className="text-xl font-semibold text-[#2C5F8D]">
               Don de matériel
@@ -106,7 +144,7 @@ export function DonationsPage() {
           </div>
 
           <Input
-            placeholder="Nom du matériel (ex : perceuse, planches...)"
+            placeholder="Nom du matériel"
             value={material.name}
             onChange={(e) => setMaterial({ ...material, name: e.target.value })}
           />
@@ -125,8 +163,34 @@ export function DonationsPage() {
             onChange={(e) =>
               setMaterial({ ...material, description: e.target.value })
             }
-            className="min-h-[100px]"
           />
+
+          {/* IMAGE OPTIONNELLE */}
+          <label className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-[#FF8C42]">
+            <ImageIcon className="h-5 w-5" />
+            Ajouter une image (optionnel)
+            <Input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                if (e.target.files?.[0]) {
+                  setMaterial({
+                    ...material,
+                    image: URL.createObjectURL(e.target.files[0]),
+                  });
+                }
+              }}
+            />
+          </label>
+
+          {material.image && (
+            <img
+              src={material.image}
+              alt="preview"
+              className="rounded-lg max-h-60 object-cover border"
+            />
+          )}
 
           <Button
             onClick={handleMaterialDonation}
@@ -141,9 +205,9 @@ export function DonationsPage() {
       {/* =======================
           DON D’ARGENT
       ======================= */}
-      <Card className="shadow-lg border-2 border-[#2C5F8D]/20 bg-gradient-to-br from-white to-[#2C5F8D]/5">
+      <Card className="mt-12 shadow-lg border-2 border-[#2C5F8D]/20 bg-gradient-to-br from-white to-[#2C5F8D]/5">
         <CardContent className="p-6 space-y-4">
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-3">
             <Euro className="h-6 w-6 text-[#2C5F8D]" />
             <h2 className="text-xl font-semibold text-[#2C5F8D]">
               Don d’argent (fictif)
@@ -171,6 +235,46 @@ export function DonationsPage() {
           </Button>
         </CardContent>
       </Card>
+
+      {/* =======================
+          LISTE DES DONS
+      ======================= */}
+      <div className="space-y-6">
+        <h3 className="text-2xl font-semibold text-[#2C5F8D]">
+          Dons de matériel de la communauté
+        </h3>
+
+        {donations.length === 0 && (
+          <p className="text-muted-foreground">Aucun don pour le moment.</p>
+        )}
+
+        {donations.map((donation) => (
+          <Card key={donation.id} className="shadow-md">
+            <CardContent className="p-4 space-y-2">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <User className="h-4 w-4" />
+                {donation.donor} • {donation.createdAt}
+              </div>
+
+              <h4 className="font-semibold text-[#2C5F8D]">
+                {donation.name} — {donation.condition}
+              </h4>
+
+              {donation.description && (
+                <p className="text-sm">{donation.description}</p>
+              )}
+
+              {donation.image && (
+                <img
+                  src={donation.image}
+                  alt=""
+                  className="rounded-lg max-h-60 object-cover border"
+                />
+              )}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }
