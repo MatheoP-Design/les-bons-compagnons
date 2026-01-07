@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Heart, Mail, Phone } from 'lucide-react';
 
 export function Footer() {
@@ -8,9 +9,15 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-lg font-medium mb-4">À propos</h3>
-            <p className="text-sm text-white/80">
+            <p className="text-sm text-white/80 mb-3">
               Les bons compagnons - Connectant les particuliers avec les meilleurs artisans pour vos projets de rénovation.
             </p>
+            <Link 
+              to="/a-propos" 
+              className="text-sm text-white/90 hover:text-white underline transition-colors"
+            >
+              En savoir plus sur notre partenariat
+            </Link>
           </div>
           
           <div>

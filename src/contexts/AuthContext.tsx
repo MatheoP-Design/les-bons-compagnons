@@ -22,12 +22,14 @@ interface AuthContextType {
   logout: () => void;
   addPoints: (points: number) => void;
   isAuthenticated: boolean;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const mockUsers = [
@@ -127,8 +129,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const savedUser = localStorage.getItem("currentUser");
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (e) {
+        localStorage.removeItem("currentUser");
+      }
     }
+    setIsLoading(false);
   }, []);
 
   const register = async (
@@ -212,6 +219,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         logout,
         addPoints,
         isAuthenticated: !!user,
+        isLoading,
       }}
     >
       {children}
