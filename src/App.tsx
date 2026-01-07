@@ -14,6 +14,7 @@ import { DashboardPage } from "./pages/DashboardPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { Toaster } from "./components/ui/sonner";
 import { CommunityPage } from "./pages/CommunityPage";
+import { DonationsPage } from "./pages/DonationsPage";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth();
@@ -38,6 +39,7 @@ function AppRoutes() {
           <Route path="/projet/:id" element={<ProjectDetailPage />} />
           <Route path="/connexion" element={<AuthPage />} />
           <Route path="/communauté" element={<CommunityPage />} />
+          <Route path="/dons" element={<DonationsPage />} />
 
           <Route
             path="/tableau-de-bord"
