@@ -49,7 +49,7 @@ export function HomePage() {
                 </Button>
               </Link>
               <Link to={isAuthenticated ? "/tableau-de-bord" : "/connexion"}>
-                <Button size="lg" variant="outline" className="bg-white text-[#2C5F8D] hover:bg-white/90">
+                <Button size="lg" variant="outline" className="bg-white text-[#2C5F8D] hover:bg-white/90 hover:text-[#2C5F8D] border-white/20 hover:border-white/30">
                   Créer une annonce
                 </Button>
               </Link>
