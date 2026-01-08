@@ -215,7 +215,7 @@ export function DonationsPage() {
           <div className="flex items-center gap-3">
             <Euro className="h-6 w-6" style={{ color: '#FE734A' }} />
             <h2 className="text-xl font-semibold text-black">
-              Don d'argent (fictif)
+              Don d'argent
             </h2>
           </div>
 
@@ -228,7 +228,7 @@ export function DonationsPage() {
           />
 
           <p className="text-sm text-muted-foreground">
-            💡 1€ donné = <strong>10 points</strong>
+            1€ donné = <strong>10 points</strong>
           </p>
 
           <Button
