@@ -38,7 +38,7 @@ import {
   Edit,
   X,
 } from "lucide-react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import type { AnnouncementStatus, Project } from "../types";
 
 const statusLabels: Record<
@@ -130,7 +130,17 @@ export function DashboardPage() {
               toast.success("Vous êtes déconnecté");
             }}
             variant="outline"
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 transition-colors"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#FE734A';
+              e.currentTarget.style.color = 'white';
+              e.currentTarget.style.backgroundColor = '#FE734A';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = '';
+              e.currentTarget.style.color = '';
+              e.currentTarget.style.backgroundColor = '';
+            }}
           >
             <LogOut className="h-4 w-4" />
             Déconnexion
@@ -308,24 +318,23 @@ export function DashboardPage() {
                     </div>
                     <div className="flex items-center gap-3">
                       <Badge
-                        className={`${
-                          statusLabels[announcement.status].color
-                        } text-white`}
+                        className={`${statusLabels[announcement.status].color
+                          } text-white`}
                       >
                         {statusLabels[announcement.status].label}
                       </Badge>
                       {quotes.filter(
                         (q) => q.announcementId === announcement.id
                       ).length > 0 && (
-                        <Badge variant="outline">
-                          {
-                            quotes.filter(
-                              (q) => q.announcementId === announcement.id
-                            ).length
-                          }{" "}
-                          devis
-                        </Badge>
-                      )}
+                          <Badge variant="outline">
+                            {
+                              quotes.filter(
+                                (q) => q.announcementId === announcement.id
+                              ).length
+                            }{" "}
+                            devis
+                          </Badge>
+                        )}
                     </div>
                   </div>
                 ))
@@ -386,7 +395,17 @@ export function DashboardPage() {
             toast.success("Vous êtes déconnecté");
           }}
           variant="outline"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 transition-colors"
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = '#FE734A';
+            e.currentTarget.style.color = 'white';
+            e.currentTarget.style.backgroundColor = '#FE734A';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = '';
+            e.currentTarget.style.color = '';
+            e.currentTarget.style.backgroundColor = '';
+          }}
         >
           <LogOut className="h-4 w-4" />
           Déconnexion

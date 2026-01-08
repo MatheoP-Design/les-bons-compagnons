@@ -11,6 +11,8 @@ export interface User {
   city: string;
   role: UserRole;
   points_fidelite: number;
+  company?: string;
+  createdAt?: Date | string;
 }
 
 interface AuthContextType {

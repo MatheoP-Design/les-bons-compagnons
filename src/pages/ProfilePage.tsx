@@ -7,7 +7,7 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Badge } from '../components/ui/badge';
 import { User, Mail, MapPin, Briefcase } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 export function ProfilePage() {
   const navigate = useNavigate();
@@ -50,14 +50,14 @@ export function ProfilePage() {
                 <User className="h-5 w-5" />
                 Informations personnelles
               </CardTitle>
-              <Badge className={user.role === 'cadre' ? 'bg-[#2C5F8D]' : 'bg-[#FF8C42]'}>
+              <Badge className="text-white border-0" style={{ background: 'linear-gradient(to right, #FE734A, #FC473F)' }}>
                 {user.role === 'cadre' ? 'Cadre des Compagnons' : 'Particulier'}
               </Badge>
             </div>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="flex items-center justify-center mb-6">
-              <div className="h-24 w-24 rounded-full bg-[#FF8C42] flex items-center justify-center">
+              <div className="h-24 w-24 rounded-full flex items-center justify-center shadow-lg" style={{ background: 'linear-gradient(135deg, #FE734A, #FC473F)' }}>
                 <User className="h-12 w-12 text-white" />
               </div>
             </div>
@@ -152,7 +152,8 @@ export function ProfilePage() {
                 <>
                   <Button
                     onClick={handleSave}
-                    className="flex-1 bg-[#FF8C42] hover:bg-[#FF8C42]/90"
+                    className="flex-1 text-white hover:opacity-90 transition-opacity border-0"
+                    style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)' }}
                   >
                     Enregistrer
                   </Button>
@@ -176,7 +177,8 @@ export function ProfilePage() {
               ) : (
                 <Button
                   onClick={() => setIsEditing(true)}
-                  className="w-full bg-[#2C5F8D] hover:bg-[#2C5F8D]/90"
+                  className="w-full text-white hover:opacity-90 transition-opacity border-0"
+                  style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)' }}
                 >
                   Modifier le profil
                 </Button>
@@ -203,11 +205,11 @@ export function ProfilePage() {
               <div>
                 <p className="text-sm font-medium">Membre depuis</p>
                 <p className="text-sm text-muted-foreground">
-                  {new Date(user.createdAt).toLocaleDateString('fr-FR', {
+                  {user.createdAt ? new Date(user.createdAt).toLocaleDateString('fr-FR', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',
-                  })}
+                  }) : 'Non disponible'}
                 </p>
               </div>
             </div>
