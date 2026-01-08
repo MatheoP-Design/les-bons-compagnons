@@ -35,24 +35,38 @@ export function HomePage() {
       {/* Hero Section */}
       <section className="relative text-white py-20" style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)' }}>
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl mb-6">
-              Trouvez les meilleurs compagnons pour vos rénovations
-            </h1>
-            <p className="text-xl mb-8 text-white/90">
-              Connectez-vous avec des artisans qualifiés pour restaurer votre patrimoine avec savoir-faire et tradition
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/annonces">
-                <Button size="lg" className="bg-white hover:bg-white/90 border-white/20 hover:border-white/30" style={{ color: '#FC473F' }}>
-                  Découvrir les annonces
-                </Button>
-              </Link>
-              <Link to={isAuthenticated ? "/tableau-de-bord" : "/connexion"}>
-                <Button size="lg" variant="outline" className="bg-white hover:bg-white/90 border-white/20 hover:border-white/30" style={{ color: '#FC473F' }}>
-                  Créer une annonce
-                </Button>
-              </Link>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-6xl mx-auto">
+            {/* Left side - Text content */}
+            <div className="text-right md:text-left">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl mb-6">
+                Trouvez les meilleurs compagnons pour vos rénovations
+              </h1>
+              <p className="text-xl mb-8 text-white/90">
+                Connectez-vous avec des artisans qualifiés pour restaurer votre patrimoine avec savoir-faire et tradition
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 md:justify-start">
+                <Link to="/annonces">
+                  <Button size="lg" className="bg-white hover:bg-white/90 border-white/20 hover:border-white/30" style={{ color: '#FC473F' }}>
+                    Découvrir les annonces
+                  </Button>
+                </Link>
+                <Link to={isAuthenticated ? "/tableau-de-bord" : "/connexion"}>
+                  <Button size="lg" variant="outline" className="bg-white hover:bg-white/90 border-white/20 hover:border-white/30" style={{ color: '#FC473F' }}>
+                    Créer une annonce
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Right side - Logo */}
+            <div className="flex items-center justify-center md:justify-end">
+              <div className="max-w-md w-full">
+                <img
+                  src="/logo blanc.png"
+                  alt="Les Bons Compagnons Logo"
+                  className="w-full h-auto object-contain drop-shadow-2xl"
+                />
+              </div>
             </div>
           </div>
         </div>
