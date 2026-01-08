@@ -102,7 +102,7 @@ export function DonationsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <div className="container mx-auto px-4 py-8 max-w-4xl flex flex-col gap-8">
       {/* =======================
           TITRE
       ======================= */}
@@ -134,7 +134,7 @@ export function DonationsPage() {
       {/* =======================
           DON DE MATÉRIEL
       ======================= */}
-      <Card className="mb-10 shadow-lg border-2 border-[#FF8C42]/20 bg-gradient-to-br from-white to-[#FF8C42]/5">
+      <Card className="m-[4] mb-10 shadow-lg border-2 border-[#FF8C42]/20 bg-gradient-to-br from-white to-[#FF8C42]/5">
         <CardContent className="p-6 space-y-4">
           <div className="flex items-center gap-3">
             <Gift className="h-6 w-6 text-[#FF8C42]" />
