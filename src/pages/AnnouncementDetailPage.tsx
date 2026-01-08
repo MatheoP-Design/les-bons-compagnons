@@ -9,7 +9,7 @@ import { Badge } from '../components/ui/badge';
 import { Textarea } from '../components/ui/textarea';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
@@ -141,7 +141,7 @@ export function AnnouncementDetailPage() {
             />
             <div className="p-6">
               <div className="flex items-start justify-between mb-4">
-                <h1 className="text-3xl text-[#2C5F8D]">{announcement.title}</h1>
+                <h1 className="text-3xl text-black">{announcement.title}</h1>
                 <Badge className={`${statusLabels[announcement.status].color} text-white`}>
                   {statusLabels[announcement.status].label}
                 </Badge>

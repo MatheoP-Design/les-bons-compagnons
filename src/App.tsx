@@ -39,11 +39,11 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
       </div>
     );
   }
-
+  
   if (!isAuthenticated) {
     return <Navigate to="/connexion" replace />;
   }
-
+  
   return <>{children}</>;
 }
 

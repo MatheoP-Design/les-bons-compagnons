@@ -130,7 +130,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const savedUser = localStorage.getItem("currentUser");
     if (savedUser) {
       try {
-        setUser(JSON.parse(savedUser));
+      setUser(JSON.parse(savedUser));
       } catch (e) {
         localStorage.removeItem("currentUser");
       }
@@ -142,7 +142,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     userData: Omit<User, "id" | "points_fidelite"> & { password: string }
   ) => {
     const users = JSON.parse(localStorage.getItem("users") || "[]");
-
+    
     if (users.some((u: User) => u.email === userData.email)) {
       return false;
     }
@@ -174,14 +174,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         u.email.toLowerCase() === email.toLowerCase().trim() &&
         u.password === password
     );
-
+    
     if (!foundUser) return false;
 
-    const { password: _, ...userWithoutPassword } = foundUser;
+      const { password: _, ...userWithoutPassword } = foundUser;
     localStorage.setItem("currentUser", JSON.stringify(userWithoutPassword));
-    setUser(userWithoutPassword);
+      setUser(userWithoutPassword);
 
-    return true;
+      return true;
   };
 
   const logout = () => {

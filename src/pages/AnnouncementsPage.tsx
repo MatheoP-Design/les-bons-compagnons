@@ -48,7 +48,7 @@ export function AnnouncementsPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl mb-4 text-[#2C5F8D]">Toutes les annonces</h1>
+        <h1 className="text-3xl md:text-4xl mb-4 text-black">Toutes les annonces</h1>
         <p className="text-muted-foreground">
           Découvrez les projets de rénovation en cours et proposez vos services
         </p>
@@ -97,7 +97,11 @@ export function AnnouncementsPage() {
               to={`/annonce/${announcement.id}`}
               className="block"
             >
-              <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-[#FF8C42] gap-0">
+              <Card
+                className="overflow-hidden shadow-md hover:shadow-xl transition-all border-2 border-transparent gap-0"
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = '#FE734A'}
+                onMouseLeave={(e) => e.currentTarget.style.borderColor = 'transparent'}
+              >
                 <div className="flex flex-col md:flex-row">
                   <div className="md:w-1/3 h-64 md:h-72 flex-shrink-0">
                     <img
@@ -110,7 +114,7 @@ export function AnnouncementsPage() {
                   <div className="flex-1 p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div>
-                        <h2 className="text-2xl mb-2 text-[#2C5F8D]">{announcement.title}</h2>
+                        <h2 className="text-2xl mb-2 text-black">{announcement.title}</h2>
                         <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                           <div className="flex items-center gap-1">
                             <MapPin className="h-4 w-4" />

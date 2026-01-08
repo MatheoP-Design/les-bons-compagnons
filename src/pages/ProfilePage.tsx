@@ -37,7 +37,7 @@ export function ProfilePage() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl mb-2 text-[#2C5F8D]">Mon Profil</h1>
+          <h1 className="text-3xl md:text-4xl mb-2 text-black">Mon Profil</h1>
           <p className="text-muted-foreground">
             Gérez vos informations personnelles
           </p>

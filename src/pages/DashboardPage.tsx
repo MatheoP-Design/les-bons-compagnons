@@ -49,7 +49,7 @@ const statusLabels: Record<
   devis_envoye: { label: "Devis envoyé", color: "bg-blue-500" },
   accepte: { label: "Accepté", color: "bg-green-500" },
   refuse: { label: "Refusé", color: "bg-red-500" },
-  en_cours: { label: "En cours", color: "bg-[#FF8C42]" },
+  en_cours: { label: "En cours", color: "bg-[#FE734A]" },
   termine: { label: "Terminé", color: "bg-purple-500" },
 };
 
@@ -113,13 +113,13 @@ export function DashboardPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl md:text-4xl mb-2 text-[#2C5F8D]">
+            <h1 className="text-3xl md:text-4xl mb-2 text-black">
               Tableau de bord - Particulier
             </h1>
             <p className="text-muted-foreground">
               Bienvenue {user.firstName} {user.lastName}
             </p>
-            <Badge className="mt-4 bg-[#FF8C42]">
+            <Badge className="mt-4 text-white border-0" style={{ background: 'linear-gradient(to right, #FE734A, #FC473F)' }}>
               🪙 {user.points_fidelite ?? 0} points de fidélité
             </Badge>
           </div>
@@ -145,7 +145,7 @@ export function DashboardPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl text-[#2C5F8D]">
+              <p className="text-3xl text-black">
                 {myAnnouncements.length}
               </p>
             </CardContent>
@@ -158,7 +158,7 @@ export function DashboardPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl text-[#FF8C42]">{myQuotes.length}</p>
+              <p className="text-3xl" style={{ color: '#FE734A' }}>{myQuotes.length}</p>
             </CardContent>
           </Card>
 
@@ -277,7 +277,8 @@ export function DashboardPage() {
 
               <Button
                 onClick={handleCreateAnnouncement}
-                className="w-full bg-[#FF8C42] hover:bg-[#FF8C42]/90"
+                className="w-full text-white hover:opacity-90 transition-opacity border-0"
+                style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)' }}
               >
                 Publier l'annonce
               </Button>
@@ -368,13 +369,13 @@ export function DashboardPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl md:text-4xl mb-2 text-[#2C5F8D]">
+          <h1 className="text-3xl md:text-4xl mb-2 text-black">
             Tableau de bord - Cadre des Compagnons
           </h1>
           <p className="text-muted-foreground">
             Bienvenue {user.firstName} {user.lastName}
           </p>
-          <Badge className="mt-4 bg-[#FF8C42]">
+          <Badge className="mt-4 text-white border-0" style={{ background: 'linear-gradient(to right, #FE734A, #FC473F)' }}>
             🪙 {user.points_fidelite ?? 0} points de fidélité
           </Badge>
         </div>
@@ -400,7 +401,7 @@ export function DashboardPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl text-[#2C5F8D]">
+            <p className="text-3xl text-black">
               {receivedAnnouncements.length}
             </p>
           </CardContent>
@@ -413,7 +414,7 @@ export function DashboardPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl text-[#FF8C42]">{myQuotes.length}</p>
+            <p className="text-3xl" style={{ color: '#FE734A' }}>{myQuotes.length}</p>
           </CardContent>
         </Card>
 
@@ -454,7 +455,8 @@ export function DashboardPage() {
                   <Button
                     onClick={() => navigate(`/annonce/${announcement.id}`)}
                     size="sm"
-                    className="bg-[#2C5F8D] hover:bg-[#2C5F8D]/90"
+                    className="text-white hover:opacity-90 transition-opacity border-0"
+                    style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)' }}
                   >
                     <Eye className="h-4 w-4 mr-2" />
                     Voir
@@ -547,8 +549,9 @@ export function DashboardPage() {
                         className={
                           project.status === "termine"
                             ? "bg-purple-500"
-                            : "bg-[#FF8C42]"
+                            : "text-white border-0"
                         }
+                        style={project.status !== "termine" ? { background: 'linear-gradient(to right, #FE734A, #FC473F)' } : {}}
                       >
                         {project.status === "termine" ? "Terminé" : "En cours"}
                       </Badge>

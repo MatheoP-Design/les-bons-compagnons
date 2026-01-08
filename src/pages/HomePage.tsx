@@ -33,7 +33,7 @@ export function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#2C5F8D] to-[#1a3a5c] text-white py-20">
+      <section className="relative text-white py-20" style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)' }}>
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl mb-6">
@@ -44,12 +44,12 @@ export function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/annonces">
-                <Button size="lg" className="bg-[#FF8C42] hover:bg-[#FF8C42]/90 text-white">
+                <Button size="lg" className="bg-white hover:bg-white/90 border-white/20 hover:border-white/30" style={{ color: '#FC473F' }}>
                   Découvrir les annonces
                 </Button>
               </Link>
               <Link to={isAuthenticated ? "/tableau-de-bord" : "/connexion"}>
-                <Button size="lg" variant="outline" className="bg-white text-[#2C5F8D] hover:bg-white/90 hover:text-[#2C5F8D] border-white/20 hover:border-white/30">
+                <Button size="lg" variant="outline" className="bg-white hover:bg-white/90 border-white/20 hover:border-white/30" style={{ color: '#FC473F' }}>
                   Créer une annonce
                 </Button>
               </Link>
@@ -58,40 +58,17 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl text-center mb-12 text-[#2C5F8D]">
-            Nos valeurs
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value) => (
-              <Card key={value.title} className="border-2 hover:border-[#FF8C42] transition-colors">
-                <CardContent className="pt-6 text-center">
-                  <div className="flex justify-center mb-4">
-                    <div className="p-3 bg-[#FF8C42]/10 rounded-full">
-                      <value.icon className="h-8 w-8 text-[#FF8C42]" />
-                    </div>
-                  </div>
-                  <h3 className="text-xl mb-2 text-[#2C5F8D]">{value.title}</h3>
-                  <p className="text-muted-foreground">{value.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* How it works */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl text-center mb-12 text-[#2C5F8D]">
+          <h2 className="text-3xl md:text-4xl text-center mb-12" style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
             Comment ça marche ?
           </h2>
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center">
-                <div className="w-12 h-12 bg-[#FF8C42] text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                <div className="w-12 h-12 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl" style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)' }}>
                   1
                 </div>
                 <h3 className="text-xl mb-2">Publiez votre annonce</h3>
@@ -101,7 +78,7 @@ export function HomePage() {
               </div>
 
               <div className="text-center">
-                <div className="w-12 h-12 bg-[#FF8C42] text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                <div className="w-12 h-12 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl" style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)' }}>
                   2
                 </div>
                 <h3 className="text-xl mb-2">Recevez des devis</h3>
@@ -111,7 +88,7 @@ export function HomePage() {
               </div>
 
               <div className="text-center">
-                <div className="w-12 h-12 bg-[#FF8C42] text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                <div className="w-12 h-12 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl" style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)' }}>
                   3
                 </div>
                 <h3 className="text-xl mb-2">Lancez votre projet</h3>
@@ -125,7 +102,7 @@ export function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-[#FF8C42] text-white">
+      <section className="py-16 text-white" style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)' }}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl mb-6">
             Prêt à démarrer votre projet ?
@@ -134,12 +111,37 @@ export function HomePage() {
             Rejoignez notre communauté de particuliers et d'artisans passionnés par la préservation du patrimoine
           </p>
           <Link to={isAuthenticated ? "/tableau-de-bord" : "/connexion"}>
-            <Button size="lg" className="bg-white text-[#FF8C42] hover:bg-white/90">
+            <Button size="lg" className="bg-white hover:bg-white/90" style={{ color: '#FC473F' }}>
               Commencer maintenant
             </Button>
           </Link>
         </div>
       </section>
+
+      {/* Values Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl text-center mb-12" style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+            Nos valeurs
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {values.map((value) => (
+              <Card key={value.title} className="border-2 transition-colors" style={{ borderColor: 'transparent' }} onMouseEnter={(e) => e.currentTarget.style.borderColor = '#FE734A'} onMouseLeave={(e) => e.currentTarget.style.borderColor = 'transparent'}>
+                <CardContent className="pt-6 text-center">
+                  <div className="flex justify-center mb-4">
+                    <div className="p-3 rounded-full" style={{ background: 'linear-gradient(to top, rgba(254, 115, 74, 0.1), rgba(252, 71, 63, 0.1))' }}>
+                      <value.icon className="h-8 w-8" style={{ color: '#FE734A' }} />
+                    </div>
+                  </div>
+                  <h3 className="text-xl mb-2" style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{value.title}</h3>
+                  <p className="text-muted-foreground">{value.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

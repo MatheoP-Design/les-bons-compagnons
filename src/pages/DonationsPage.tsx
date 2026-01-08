@@ -107,14 +107,14 @@ export function DonationsPage() {
           TITRE
       ======================= */}
       <div className="mb-10 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-[#2C5F8D] mb-3">
+        <h1 className="text-3xl md:text-4xl font-bold text-black mb-3">
           Dons & Solidarité
         </h1>
         <p className="text-muted-foreground text-lg">
           Soutenez la communauté et gagnez des points de fidélité
         </p>
 
-        <Badge className="mt-4 bg-[#FF8C42]">
+        <Badge className="mt-4 text-white border-0" style={{ background: 'linear-gradient(to right, #FE734A, #FC473F)' }}>
           🪙 {user.points_fidelite ?? 0} points de fidélité
         </Badge>
       </div>
@@ -134,11 +134,11 @@ export function DonationsPage() {
       {/* =======================
           DON DE MATÉRIEL
       ======================= */}
-      <Card className="m-[4] mb-10 shadow-lg border-2 border-[#FF8C42]/20 bg-gradient-to-br from-white to-[#FF8C42]/5">
+      <Card className="m-[4] mb-10 shadow-lg border-2 bg-gradient-to-br from-white" style={{ borderColor: 'rgba(254, 115, 74, 0.2)', background: 'linear-gradient(to bottom right, white, rgba(254, 115, 74, 0.05))' }}>
         <CardContent className="p-6 space-y-4">
           <div className="flex items-center gap-3">
-            <Gift className="h-6 w-6 text-[#FF8C42]" />
-            <h2 className="text-xl font-semibold text-[#2C5F8D]">
+            <Gift className="h-6 w-6" style={{ color: '#FE734A' }} />
+            <h2 className="text-xl font-semibold text-black">
               Don de matériel
             </h2>
           </div>
@@ -166,7 +166,11 @@ export function DonationsPage() {
           />
 
           {/* IMAGE OPTIONNELLE */}
-          <label className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-[#FF8C42]">
+          <label
+            className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground transition-colors"
+            onMouseEnter={(e) => e.currentTarget.style.color = '#FE734A'}
+            onMouseLeave={(e) => e.currentTarget.style.color = ''}
+          >
             <ImageIcon className="h-5 w-5" />
             Ajouter une image (optionnel)
             <Input
@@ -195,7 +199,8 @@ export function DonationsPage() {
           <Button
             onClick={handleMaterialDonation}
             disabled={!material.name || !material.condition}
-            className="bg-[#FF8C42] hover:bg-[#FF8C42]/90"
+            className="text-white hover:opacity-90 transition-opacity border-0"
+            style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)' }}
           >
             Donner du matériel (+50 points)
           </Button>
@@ -205,12 +210,12 @@ export function DonationsPage() {
       {/* =======================
           DON D’ARGENT
       ======================= */}
-      <Card className="mt-12 shadow-lg border-2 border-[#2C5F8D]/20 bg-gradient-to-br from-white to-[#2C5F8D]/5">
+      <Card className="mt-12 shadow-lg border-2 bg-gradient-to-br from-white" style={{ borderColor: 'rgba(254, 115, 74, 0.2)', background: 'linear-gradient(to bottom right, white, rgba(254, 115, 74, 0.05))' }}>
         <CardContent className="p-6 space-y-4">
           <div className="flex items-center gap-3">
-            <Euro className="h-6 w-6 text-[#2C5F8D]" />
-            <h2 className="text-xl font-semibold text-[#2C5F8D]">
-              Don d’argent (fictif)
+            <Euro className="h-6 w-6" style={{ color: '#FE734A' }} />
+            <h2 className="text-xl font-semibold text-black">
+              Don d'argent (fictif)
             </h2>
           </div>
 
@@ -229,7 +234,8 @@ export function DonationsPage() {
           <Button
             onClick={handleMoneyDonation}
             disabled={!amount}
-            className="bg-[#2C5F8D] hover:bg-[#2C5F8D]/90"
+            className="text-white hover:opacity-90 transition-opacity border-0"
+            style={{ background: 'linear-gradient(to top, #FE734A, #FC473F)' }}
           >
             Faire un don
           </Button>
@@ -240,7 +246,7 @@ export function DonationsPage() {
           LISTE DES DONS
       ======================= */}
       <div className="space-y-6">
-        <h3 className="text-2xl font-semibold text-[#2C5F8D]">
+        <h3 className="text-2xl font-semibold text-black">
           Dons de matériel de la communauté
         </h3>
 
@@ -256,7 +262,7 @@ export function DonationsPage() {
                 {donation.donor} • {donation.createdAt}
               </div>
 
-              <h4 className="font-semibold text-[#2C5F8D]">
+              <h4 className="font-semibold text-black">
                 {donation.name} — {donation.condition}
               </h4>
 

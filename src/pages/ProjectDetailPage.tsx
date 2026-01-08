@@ -9,7 +9,7 @@ import { Badge } from '../components/ui/badge';
 import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 
 export function ProjectDetailPage() {
   const { id } = useParams();
@@ -62,7 +62,7 @@ export function ProjectDetailPage() {
           <CardContent className="p-6">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h1 className="text-3xl mb-2 text-[#2C5F8D]">{project.title}</h1>
+                <h1 className="text-3xl mb-2 text-black">{project.title}</h1>
                 <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <MapPin className="h-4 w-4" />
@@ -220,9 +220,29 @@ export function ProjectDetailPage() {
                       type="button"
                       onClick={() => setRating(i + 1)}
                       className="focus:outline-none"
+                      onMouseEnter={(e) => {
+                        if (i >= rating) {
+                          const star = e.currentTarget.querySelector('svg');
+                          if (star) {
+                            star.style.color = '#FE734A';
+                            star.style.fill = '#FE734A';
+                            star.style.opacity = '0.5';
+                          }
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (i >= rating) {
+                          const star = e.currentTarget.querySelector('svg');
+                          if (star) {
+                            star.style.color = '';
+                            star.style.fill = '';
+                            star.style.opacity = '';
+                          }
+                        }
+                      }}
                     >
                       <Star
-                        className={`h-8 w-8 cursor-pointer transition-colors ${i < rating ? 'fill-[#FF8C42] text-[#FF8C42]' : 'text-gray-300 hover:text-[#FF8C42]/50'
+                        className={`h-8 w-8 cursor-pointer transition-colors ${i < rating ? 'fill-[#FE734A] text-[#FE734A]' : 'text-gray-300'
                           }`}
                       />
                     </button>

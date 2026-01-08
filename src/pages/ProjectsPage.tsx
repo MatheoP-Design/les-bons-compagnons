@@ -7,14 +7,14 @@ import { Badge } from '../components/ui/badge';
 
 export function ProjectsPage() {
   const { projects } = useData();
-  
+
   // Filtrer pour n'afficher que les projets terminés
   const completedProjects = projects.filter(project => project.status === 'termine');
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl mb-4 text-[#2C5F8D]">Projets réalisés</h1>
+        <h1 className="text-3xl md:text-4xl mb-4 text-black">Projets réalisés</h1>
         <p className="text-muted-foreground">
           Découvrez les réalisations de nos compagnons artisans
         </p>
@@ -26,7 +26,11 @@ export function ProjectsPage() {
           
           return (
             <Link key={project.id} to={`/projet/${project.id}`}>
-              <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-[#FF8C42] h-full">
+              <Card 
+                className="overflow-hidden shadow-md hover:shadow-xl transition-all border-2 border-transparent h-full"
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = '#FE734A'}
+                onMouseLeave={(e) => e.currentTarget.style.borderColor = 'transparent'}
+              >
                 <CardContent className="p-0">
                   <img
                     src={mainImage}
@@ -35,7 +39,7 @@ export function ProjectsPage() {
                   />
                   <div className="p-4">
                     <div className="flex items-start justify-between mb-2">
-                      <h2 className="text-xl text-[#2C5F8D]">{project.title}</h2>
+                      <h2 className="text-xl text-black">{project.title}</h2>
                       <Badge className={project.status === 'termine' ? 'bg-purple-500' : 'bg-[#FF8C42]'}>
                         {project.status === 'termine' ? 'Terminé' : 'En cours'}
                       </Badge>

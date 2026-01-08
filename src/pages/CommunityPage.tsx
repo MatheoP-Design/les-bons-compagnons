@@ -21,16 +21,20 @@ function PostCard({ post, onReply, onEdit, onDelete, onEditReply, onDeleteReply,
   };
 
   return (
-    <Card className="shadow-md hover:shadow-lg transition-shadow border-2 border-transparent hover:border-[#FF8C42]">
+    <Card 
+      className="shadow-md hover:shadow-lg transition-shadow border-2 border-transparent"
+      onMouseEnter={(e) => e.currentTarget.style.borderColor = '#FE734A'}
+      onMouseLeave={(e) => e.currentTarget.style.borderColor = 'transparent'}
+    >
       <CardContent className="p-6 space-y-4">
         {/* Auteur */}
         <div className="flex items-center justify-between pb-3 border-b">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FF8C42]/10 border-2 border-[#FF8C42]/20">
-              <User className="h-5 w-5 text-[#FF8C42]" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-full" style={{ backgroundColor: 'rgba(254, 115, 74, 0.1)', border: '2px solid rgba(254, 115, 74, 0.2)' }}>
+              <User className="h-5 w-5" style={{ color: '#FE734A' }} />
             </div>
             <div>
-              <span className="font-semibold text-[#2C5F8D]">{post.author}</span>
+              <span className="font-semibold text-black">{post.author}</span>
               <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
                 <Clock className="h-3 w-3" />
                 <span>{post.createdAt}</span>
@@ -46,7 +50,9 @@ function PostCard({ post, onReply, onEdit, onDelete, onEditReply, onDeleteReply,
                   setIsEditing(true);
                   setEditedContent(post.content);
                 }}
-                className="h-8 w-8 p-0 text-[#2C5F8D] hover:text-[#FF8C42]"
+                className="h-8 w-8 p-0 text-black transition-colors"
+                onMouseEnter={(e) => e.currentTarget.style.color = '#FE734A'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#2C5F8D'}
               >
                 <Edit className="h-4 w-4" />
               </Button>
@@ -95,7 +101,8 @@ function PostCard({ post, onReply, onEdit, onDelete, onEditReply, onDeleteReply,
                   }
                 }}
                 disabled={!editedContent.trim()}
-                className="bg-[#FF8C42] hover:bg-[#FF8C42]/90"
+                className="text-white hover:opacity-90 transition-opacity border-0"
+                style={{ background: 'linear-gradient(to right, #FE734A, #FC473F)' }}
               >
                 <Check className="h-4 w-4 mr-2" />
                 Enregistrer
@@ -108,29 +115,30 @@ function PostCard({ post, onReply, onEdit, onDelete, onEditReply, onDeleteReply,
 
         {post.image && (
           <div className="rounded-lg overflow-hidden border-2 border-gray-200">
-            <img
-              src={post.image}
-              alt=""
+          <img
+            src={post.image}
+            alt=""
               className="w-full max-h-96 object-cover"
-            />
+          />
           </div>
         )}
 
         {/* Réponses */}
         {post.replies.length > 0 && (
           <div className="space-y-3 pt-3 border-t bg-gray-50/50 rounded-lg p-4">
-            <h4 className="text-sm font-semibold text-[#2C5F8D] mb-2">
+            <h4 className="text-sm font-semibold text-black mb-2">
               {post.replies.length} {post.replies.length === 1 ? 'réponse' : 'réponses'}
             </h4>
             {post.replies.map((replyItem) => (
-              <div
+            <div
                 key={replyItem.id}
-                className="pl-4 border-l-2 border-[#FF8C42]/30 bg-white rounded p-3 relative"
+                className="pl-4 border-l-2 bg-white rounded p-3 relative"
+                style={{ borderLeftColor: 'rgba(254, 115, 74, 0.3)' }}
               >
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center gap-2">
-                    <User className="h-3 w-3 text-[#FF8C42]" />
-                    <strong className="text-sm text-[#2C5F8D]">{replyItem.author}</strong>
+                    <User className="h-3 w-3" style={{ color: '#FE734A' }} />
+                    <strong className="text-sm text-black">{replyItem.author}</strong>
                   </div>
                   {isReplyAuthor(replyItem.author) && editingReplyId !== replyItem.id && (
                     <div className="flex items-center gap-1">
@@ -141,7 +149,9 @@ function PostCard({ post, onReply, onEdit, onDelete, onEditReply, onDeleteReply,
                           setEditingReplyId(replyItem.id);
                           setEditedReplyContent(replyItem.content);
                         }}
-                        className="h-6 w-6 p-0 text-[#2C5F8D] hover:text-[#FF8C42]"
+                        className="h-6 w-6 p-0 text-black transition-colors"
+                        onMouseEnter={(e) => e.currentTarget.style.color = '#FE734A'}
+                        onMouseLeave={(e) => e.currentTarget.style.color = '#2C5F8D'}
                       >
                         <Edit className="h-3 w-3" />
                       </Button>
@@ -190,7 +200,8 @@ function PostCard({ post, onReply, onEdit, onDelete, onEditReply, onDeleteReply,
                           }
                         }}
                         disabled={!editedReplyContent.trim()}
-                        className="bg-[#FF8C42] hover:bg-[#FF8C42]/90 h-7 text-xs"
+                        className="text-white hover:opacity-90 transition-opacity border-0 h-7 text-xs"
+                        style={{ background: 'linear-gradient(to right, #FE734A, #FC473F)' }}
                       >
                         <Check className="h-3 w-3 mr-1" />
                         Enregistrer
@@ -200,9 +211,9 @@ function PostCard({ post, onReply, onEdit, onDelete, onEditReply, onDeleteReply,
                 ) : (
                   <p className="text-sm text-gray-700">{replyItem.content}</p>
                 )}
-              </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
         )}
 
         {/* Répondre */}
@@ -220,7 +231,8 @@ function PostCard({ post, onReply, onEdit, onDelete, onEditReply, onDeleteReply,
               setReply("");
             }}
             disabled={!reply.trim()}
-            className="bg-[#FF8C42] hover:bg-[#FF8C42]/90 h-auto px-4"
+            className="text-white hover:opacity-90 transition-opacity border-0 h-auto px-4"
+            style={{ background: 'linear-gradient(to right, #FE734A, #FC473F)' }}
           >
             <Send className="h-4 w-4" />
           </Button>
@@ -246,16 +258,16 @@ export function CommunityPage() {
     }
     // Default posts
     return [
-      {
-        id: 1,
-        author: "Jean Dubois",
+    {
+      id: 1,
+      author: "Jean Dubois",
         content: "Quelqu'un a déjà rénové une maison en pierre ?",
-        image: null,
-        replies: [
+      image: null,
+      replies: [
           { id: 1, author: "Marie Lepaul", content: "Oui, attention à l'humidité." },
-        ],
-        createdAt: "Il y a 2h",
-      },
+      ],
+      createdAt: "Il y a 2h",
+    },
     ];
   };
 
@@ -282,11 +294,11 @@ export function CommunityPage() {
     if (!newPost.trim() || !user) return;
 
     const newPostData = {
-      id: Date.now(),
+        id: Date.now(),
       author: `${user.firstName} ${user.lastName}`,
-      content: newPost,
-      image: newImage,
-      replies: [],
+        content: newPost,
+        image: newImage,
+        replies: [],
       createdAt: "À l'instant",
     };
 
@@ -300,19 +312,19 @@ export function CommunityPage() {
     if (!replyContent.trim() || !user) return;
 
     const updatedPosts = posts.map((post) =>
-      post.id === postId
-        ? {
-            ...post,
-            replies: [
-              ...post.replies,
-              {
-                id: Date.now(),
+        post.id === postId
+          ? {
+              ...post,
+              replies: [
+                ...post.replies,
+                {
+                  id: Date.now(),
                 author: `${user.firstName} ${user.lastName}`,
-                content: replyContent,
-              },
-            ],
-          }
-        : post
+                  content: replyContent,
+                },
+              ],
+            }
+          : post
     );
     setPosts(updatedPosts);
   };
@@ -370,7 +382,7 @@ export function CommunityPage() {
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       {/* Titre */}
       <div className="mb-8 text-center">
-        <h1 className="text-3xl md:text-4xl mb-3 text-[#2C5F8D] font-bold">
+        <h1 className="text-3xl md:text-4xl mb-3 text-black font-bold">
           Communauté
         </h1>
         <p className="text-muted-foreground text-lg">
@@ -392,7 +404,9 @@ export function CommunityPage() {
             {searchTerm ? (
               <button
                 onClick={() => setSearchTerm("")}
-                className="absolute right-3 text-muted-foreground hover:text-[#FF8C42] transition-colors z-10"
+                className="absolute right-3 text-muted-foreground transition-colors z-10"
+                onMouseEnter={(e) => e.currentTarget.style.color = '#FE734A'}
+                onMouseLeave={(e) => e.currentTarget.style.color = ''}
                 style={{ top: '50%', transform: 'translateY(-50%)', right: '12px' }}
               >
                 <X className="h-5 w-5" />
@@ -408,14 +422,14 @@ export function CommunityPage() {
       </Card>
 
       {/* Création de post */}
-      <Card className="mb-8 shadow-lg border-2 border-[#FF8C42]/20 bg-gradient-to-br from-white to-[#FF8C42]/5">
+      <Card className="mb-8 shadow-lg border-2 bg-gradient-to-br from-white" style={{ borderColor: 'rgba(254, 115, 74, 0.2)', background: 'linear-gradient(to bottom right, white, rgba(254, 115, 74, 0.05))' }}>
         <CardContent className="p-6 space-y-4">
           <div className="flex items-center gap-2 mb-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FF8C42]/10 border-2 border-[#FF8C42]/20">
-              <User className="h-5 w-5 text-[#FF8C42]" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-full" style={{ backgroundColor: 'rgba(254, 115, 74, 0.1)', border: '2px solid rgba(254, 115, 74, 0.2)' }}>
+              <User className="h-5 w-5" style={{ color: '#FE734A' }} />
             </div>
             <div>
-              <p className="font-semibold text-[#2C5F8D]">
+              <p className="font-semibold text-black">
                 {user?.firstName} {user?.lastName}
               </p>
               <p className="text-xs text-muted-foreground">Publier un message</p>
@@ -448,25 +462,30 @@ export function CommunityPage() {
           )}
 
           <div className="flex items-center justify-between gap-4">
-            <label className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-[#FF8C42] transition-colors">
+            <label 
+              className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground transition-colors"
+              onMouseEnter={(e) => e.currentTarget.style.color = '#FE734A'}
+              onMouseLeave={(e) => e.currentTarget.style.color = ''}
+            >
               <ImageIcon className="h-5 w-5" />
               <span>Ajouter une image</span>
-              <Input
-                type="file"
-                accept="image/*"
+          <Input
+            type="file"
+            accept="image/*"
                 onChange={(e) => {
                   if (e.target.files?.[0]) {
                     setNewImage(URL.createObjectURL(e.target.files[0]));
-                  }
+            }
                 }}
                 className="hidden"
-              />
+          />
             </label>
-            
+
             <Button 
               onClick={handleCreatePost}
               disabled={!newPost.trim()}
-              className="bg-[#FF8C42] hover:bg-[#FF8C42]/90 px-6"
+              className="text-white hover:opacity-90 transition-opacity border-0 px-6"
+              style={{ background: 'linear-gradient(to right, #FE734A, #FC473F)' }}
             >
               <Send className="h-4 w-4 mr-2" />
               Publier
